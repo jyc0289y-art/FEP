@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP.01 교훈집 — 익숙한 경험의 심리학</title>
+<style>
+  :root {
+    --bg: #0f0f1a;
+    --card: #1a1a2e;
+    --accent: #e94560;
+    --accent2: #0f3460;
+    --text: #eaeaea;
+    --muted: #8888aa;
+    --green: #4ecca3;
+    --yellow: #f5c542;
+    --red: #e94560;
+    --blue: #5bc0eb;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-bottom: 3px solid var(--accent);
+  }
+  .hero h1 { font-size: 2.2rem; margin-bottom: 8px; }
+  .hero .sub { color: var(--muted); font-size: 1rem; }
+  .hero .stats {
+    display: flex; justify-content: center; gap: 30px;
+    margin-top: 24px; flex-wrap: wrap;
+  }
+  .stat-box {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px; padding: 16px 24px;
+    text-align: center; min-width: 120px;
+  }
+  .stat-box .num { font-size: 2rem; font-weight: 800; color: var(--accent); }
+  .stat-box .label { font-size: 0.8rem; color: var(--muted); margin-top: 4px; }
+
+  /* Filters */
+  .filters {
+    display: flex; justify-content: center; gap: 10px;
+    padding: 24px 20px; flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: var(--card); border: 1px solid #333;
+    color: var(--text); padding: 8px 16px; border-radius: 20px;
+    cursor: pointer; font-size: 0.85rem; transition: all 0.2s;
+  }
+  .filter-btn:hover { border-color: var(--accent); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* Severity legend */
+  .legend {
+    display: flex; justify-content: center; gap: 20px;
+    padding: 0 20px 20px; font-size: 0.8rem;
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot.red { background: var(--red); }
+  .dot.yellow { background: var(--yellow); }
+  .dot.green { background: var(--green); }
+
+  /* Cards grid */
+  .grid {
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 20px 60px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    border-left: 4px solid var(--accent2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(233,69,96,0.15); }
+  .card.severity-critical { border-left-color: var(--red); }
+  .card.severity-medium { border-left-color: var(--yellow); }
+  .card.severity-low { border-left-color: var(--green); }
+
+  .card .cat-tag {
+    display: inline-block; font-size: 0.7rem;
+    background: rgba(255,255,255,0.08); padding: 3px 10px;
+    border-radius: 10px; color: var(--muted); margin-bottom: 10px;
+  }
+  .card h3 { font-size: 1.05rem; margin-bottom: 8px; }
+  .card .severity-badge {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 0.7rem; padding: 2px 8px; border-radius: 8px;
+  }
+  .severity-badge.critical { background: rgba(233,69,96,0.2); color: var(--red); }
+  .severity-badge.medium { background: rgba(245,197,66,0.2); color: var(--yellow); }
+  .severity-badge.low { background: rgba(78,204,163,0.2); color: var(--green); }
+
+  .card .symptom { color: var(--muted); font-size: 0.85rem; margin-bottom: 12px; }
+
+  .card .detail {
+    max-height: 0; overflow: hidden; transition: max-height 0.4s ease;
+  }
+  .card.expanded .detail { max-height: 600px; }
+
+  .detail-section { margin-top: 12px; }
+  .detail-section .label { font-size: 0.75rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .detail-section p { font-size: 0.85rem; color: #ccc; }
+
+  .expand-hint {
+    text-align: center; color: var(--muted); font-size: 0.75rem;
+    margin-top: 12px; transition: opacity 0.3s;
+  }
+  .card.expanded .expand-hint { opacity: 0; }
+
+  /* Evolution timeline */
+  .timeline-section {
+    max-width: 900px; margin: 0 auto 60px;
+    padding: 0 20px;
+  }
+  .timeline-section h2 {
+    text-align: center; font-size: 1.5rem; margin-bottom: 30px;
+    color: var(--blue);
+  }
+  .timeline {
+    position: relative;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+    width: 3px; background: linear-gradient(to bottom, var(--red), var(--yellow), var(--green));
+    border-radius: 3px;
+  }
+  .tl-item {
+    position: relative; margin-bottom: 24px;
+    padding: 16px 20px;
+    background: var(--card); border-radius: 12px;
+    transition: all 0.3s;
+  }
+  .tl-item:hover { transform: translateX(6px); }
+  .tl-item::before {
+    content: ''; position: absolute; left: -32px; top: 20px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); border: 3px solid var(--bg);
+  }
+  .tl-item.success::before { background: var(--green); }
+  .tl-item .version { font-size: 0.75rem; color: var(--accent); font-weight: 700; }
+  .tl-item h4 { font-size: 0.95rem; margin: 4px 0; }
+  .tl-item .params { font-size: 0.8rem; color: var(--muted); font-family: monospace; }
+  .tl-item .feedback { font-size: 0.85rem; color: #bbb; margin-top: 6px; font-style: italic; }
+  .tl-item .lesson { font-size: 0.8rem; color: var(--green); margin-top: 4px; }
+
+  /* Quiz mode */
+  .quiz-section {
+    max-width: 700px; margin: 0 auto 60px;
+    padding: 0 20px;
+    text-align: center;
+  }
+  .quiz-section h2 { font-size: 1.5rem; margin-bottom: 20px; color: var(--yellow); }
+  .quiz-card {
+    background: var(--card); border-radius: 16px;
+    padding: 30px; text-align: left;
+  }
+  .quiz-card .q { font-size: 1.1rem; margin-bottom: 16px; }
+  .quiz-card .q .emoji { font-size: 1.4rem; margin-right: 8px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .quiz-opt {
+    background: rgba(255,255,255,0.05); border: 1px solid #333;
+    padding: 12px 16px; border-radius: 10px; cursor: pointer;
+    transition: all 0.2s; font-size: 0.9rem;
+  }
+  .quiz-opt:hover { border-color: var(--blue); background: rgba(91,192,235,0.1); }
+  .quiz-opt.correct { border-color: var(--green); background: rgba(78,204,163,0.15); }
+  .quiz-opt.wrong { border-color: var(--red); background: rgba(233,69,96,0.1); }
+  .quiz-feedback {
+    margin-top: 16px; padding: 12px; border-radius: 10px;
+    display: none; font-size: 0.9rem;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.right { background: rgba(78,204,163,0.1); color: var(--green); }
+  .quiz-feedback.wrong-fb { background: rgba(233,69,96,0.1); color: var(--red); }
+  .quiz-nav {
+    display: flex; justify-content: space-between; margin-top: 20px;
+  }
+  .quiz-nav button {
+    background: var(--accent2); border: none; color: #fff;
+    padding: 10px 24px; border-radius: 10px; cursor: pointer;
+    font-size: 0.9rem; transition: background 0.2s;
+  }
+  .quiz-nav button:hover { background: var(--accent); }
+  .quiz-score {
+    font-size: 1.2rem; color: var(--green); margin-top: 16px;
+    display: none;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 1.5rem; }
+    .grid { grid-template-columns: 1fr; }
+    .stat-box { min-width: 90px; padding: 12px 16px; }
+    .stat-box .num { font-size: 1.5rem; }
+  }
+
+  /* Section divider */
+  .section-divider {
+    text-align: center; padding: 40px 20px 20px;
+    max-width: 900px; margin: 0 auto;
+  }
+  .section-divider h2 { font-size: 1.5rem; color: var(--blue); }
+  .section-divider p { color: var(--muted); font-size: 0.9rem; margin-top: 8px; }
+
+  /* Tab navigation */
+  .tabs {
+    display: flex; justify-content: center; gap: 0;
+    margin: 20px auto; max-width: 600px;
+    background: var(--card); border-radius: 12px;
+    overflow: hidden;
+  }
+  .tab {
+    flex: 1; padding: 12px; text-align: center;
+    cursor: pointer; font-size: 0.9rem;
+    transition: all 0.2s; border: none; background: transparent;
+    color: var(--muted);
+  }
+  .tab:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+  .tab.active { color: #fff; background: var(--accent); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>EP.01 "강요된 칭찬의 심리학" 교훈집</h1>
+  <p class="sub">FEP 프로젝트 시행착오 & 해결 아카이브 | 2026-04-12</p>
+  <div class="stats">
+    <div class="stat-box"><div class="num">15</div><div class="label">총 교훈</div></div>
+    <div class="stat-box"><div class="num">7</div><div class="label">카테고리</div></div>
+    <div class="stat-box"><div class="num">5</div><div class="label">치명적</div></div>
+    <div class="stat-box"><div class="num">6</div><div class="label">진화 단계</div></div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('cards')">카드 뷰</button>
+  <button class="tab" onclick="switchTab('timeline')">진화 타임라인</button>
+  <button class="tab" onclick="switchTab('quiz')">셀프 퀴즈</button>
+</div>
+
+<!-- TAB 1: Cards -->
+<div id="tab-cards" class="tab-content active">
+  <div class="filters" id="filters"></div>
+  <div class="legend">
+    <span><span class="dot red"></span> 치명적</span>
+    <span><span class="dot yellow"></span> 중간</span>
+    <span><span class="dot green"></span> 낮음/1회성</span>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- TAB 2: Timeline -->
+<div id="tab-timeline" class="tab-content">
+  <div class="timeline-section">
+    <h2>브리딩 효과 진화 v1 → v6</h2>
+    <div class="timeline" id="timeline"></div>
+  </div>
+</div>
+
+<!-- TAB 3: Quiz -->
+<div id="tab-quiz" class="tab-content">
+  <div class="quiz-section">
+    <h2>교훈 셀프 테스트</h2>
+    <div class="quiz-card" id="quiz-card"></div>
+    <div class="quiz-score" id="quiz-score"></div>
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const lessons = [
+  {
+    id: "1.1", title: "싱크 드리프트 (+20.6초)",
+    cat: "FFmpeg", severity: "critical",
+    symptom: "롱폼 뒤쪽으로 갈수록 나레이션과 일러스트가 점점 어긋남",
+    cause: "-shortest 플래그가 -loop 1 + zoompan 조합에서 1~2초 오버런",
+    solution: "반드시 -t {duration} 명시",
+    rule: "-shortest만으로 싱크 제어 금지"
+  },
+  {
+    id: "1.2", title: "B컷 세그먼트 이중 포함 (+133초)",
+    cat: "FFmpeg", severity: "critical",
+    symptom: "롱폼이 4.5분이어야 하는데 6.7분으로 부풀림",
+    cause: "build_longform()의 glob(\"scene_*.mp4\")가 _seg0, _seg1 임시 파일도 포함",
+    solution: "_seg/_cut/_bcut/_concat 패턴을 glob에서 제외하는 필터 추가",
+    rule: "concat glob에 임시 파일 포함 금지"
+  },
+  {
+    id: "1.3", title: "zoompan 양자화 (픽셀 계단)",
+    cat: "FFmpeg", severity: "medium",
+    symptom: "브리딩 효과에서 카메라가 이산적으로 이동",
+    cause: "1920x1080 해상도에서 1px 이동이 눈에 띔",
+    solution: "내부 2x 업스케일(3840x2160) → Lanczos 다운스케일",
+    rule: "zoompan은 반드시 2x 이상 업스케일 후 다운스케일"
+  },
+  {
+    id: "1.4", title: "오버레이 빌드가 원본 덮어씀",
+    cat: "FFmpeg", severity: "medium",
+    symptom: "--overlay 플래그로 빌드 시 텍스트 포함 영상이 원본 덮어씀",
+    cause: "오버레이 빌드와 클린 빌드가 같은 output 경로 사용",
+    solution: "오버레이 빌드는 별도 파일명 사용 (예: _ko 접미사)",
+    rule: "--overlay 빌드 시 반드시 별도 파일명"
+  },
+  {
+    id: "2.1", title: "검은 화면 (scene_13)",
+    cat: "AI 일러스트", severity: "critical",
+    symptom: "씬 좌측 절반이 완전히 검은색",
+    cause: "프롬프트에 \"darker tones, shadowy\" → AI가 문자 그대로 해석",
+    solution: "구체적 색상명 사용 (\"muted purple-gray background\")",
+    rule: "dark/shadow/black 직접 사용 금지"
+  },
+  {
+    id: "2.2", title: "워터마크/텍스트 누출",
+    cat: "AI 일러스트", severity: "medium",
+    symptom: "\"www.kurome...\", \"kcat\", \"춘씨2\" 등 불필요한 텍스트",
+    cause: "FLUX 모델이 학습 데이터의 워터마크를 재현",
+    solution: "\"original artwork, no artist signature, no website url\" 반드시 추가",
+    rule: "모든 프롬프트에 워터마크 방지 문구 필수"
+  },
+  {
+    id: "2.3", title: "FP8 모델 MPS 불가",
+    cat: "환경 설정", severity: "low",
+    symptom: "Apple Silicon에서 FP8 모델 로드 실패",
+    cause: "MPS 백엔드가 FP8 연산 미지원",
+    solution: "GGUF Q8 사용 (flux1-kontext-dev-Q8_0.gguf)",
+    rule: "Apple Silicon → GGUF Q8 필수"
+  },
+  {
+    id: "4.1", title: "_alt 파일 우선 반환",
+    cat: "이미지 탐색", severity: "medium",
+    symptom: "find_scene_image()가 원본 대신 _alt 파일 반환",
+    cause: "macOS APFS의 glob 순서가 비결정적",
+    solution: "_alt 필터링 + sorted() 적용",
+    rule: "glob 결과는 반드시 정렬 + 필터링"
+  },
+  {
+    id: "5.1", title: "단일 이미지로 멀티토픽 커버 불가",
+    cat: "쇼츠 제작", severity: "medium",
+    symptom: "나레이션이 여러 상황을 언급하는데 이미지 하나만 표시",
+    cause: "SHORTS_CONFIG가 단일 씬만 지원하는 구조",
+    solution: "SHORTS_CONFIG를 멀티세그먼트 지원으로 리팩토링",
+    rule: "나레이션이 여러 상황 언급 시 반드시 멀티 씬 구성"
+  },
+  {
+    id: "5.2", title: "마주보는 구도에서 split 크롭 불가",
+    cat: "쇼츠 제작", severity: "low",
+    symptom: "scene_05 split_lr 시 한쪽 인물의 등만 보임",
+    cause: "마주보는 구도에서 좌우 분할은 한쪽을 뒷모습으로 만듦",
+    solution: "마주보는 구도 → center 크롭",
+    rule: "마주보는 구도 = center 크롭 필수"
+  },
+  {
+    id: "6.1", title: "rembg 머리카락 뜯김",
+    cat: "패럴랙스", severity: "critical",
+    symptom: "전경 분리 시 민준의 머리카락이 거칠게 잘림",
+    cause: "rembg의 U2-Net 모델이 세밀한 머리카락 경계를 처리 못함",
+    solution: "rembg 패럴랙스 단독 사용 불가 → LivePortrait로 전환",
+    rule: "패럴랙스에 rembg 단독 사용 금지"
+  },
+  {
+    id: "6.2", title: "거울/말풍선이 전경으로 분류",
+    cat: "패럴랙스", severity: "critical",
+    symptom: "scene_01의 거울 반사, 말풍선이 전경에 포함",
+    cause: "rembg는 \"사람\"이 아니라 \"전면 물체\" 전체를 분리",
+    solution: "오브젝트가 복잡한 씬에서 자동 분리 한계 인정",
+    rule: "rembg = 배경 제거 도구, 인물 분리 도구 아님"
+  },
+  {
+    id: "7.1", title: "onnxruntime-silicon 설치 불가",
+    cat: "환경 설정", severity: "low",
+    symptom: "pip install onnxruntime-silicon==1.16.3 실패",
+    cause: "해당 패키지가 현재 PyPI에서 제공 불가",
+    solution: "pip install onnxruntime (일반 버전)으로 대체",
+    rule: "onnxruntime-silicon → onnxruntime (일반)"
+  }
+];
+
+const breathingEvolution = [
+  { ver: "v1", name: "수전증", params: "drift ±3px, 4.2초 주기", feedback: "카메라를 들고 있는 손이 떨리는 것처럼 보여", lesson: "빠르고 작은 움직임 = 떨림 느낌", success: false },
+  { ver: "v2", name: "너무 미세", params: "zoom ±0.3%, 5초 주기", feedback: "변화를 느낄 수 없어", lesson: "줌만으로는 체감 불가, drift 필요", success: false },
+  { ver: "v3", name: "이산화 양자화", params: "zoom ±1.2% + drift", feedback: "픽셀 높낮이를 읽는 것처럼 계단이 보여", lesson: "1080p에서 1px 이동 감지됨 → 업스케일 필요", success: false },
+  { ver: "v4/v5", name: "해결", params: "2x 내부 처리 + 복합 사인파(2주기)", feedback: "훨씬 좋아. 더 역동적이게만 해줘", lesson: "Lanczos 다운스케일로 서브픽셀 부드러움 달성", success: true },
+  { ver: "v6", name: "랜덤 모션", params: "씬별 MD5 해시 → 랜덤 위상/진폭, h±30px v±24px 클램핑", feedback: "씬마다 다른 모션 패턴, 규칙성 제거", lesson: "결정론적 랜덤 = 재현 가능 + 자연스러움", success: true },
+];
+
+const quizzes = [
+  {
+    q: "FFmpeg에서 -loop 1 + zoompan 조합 사용 시, 영상 길이를 정확히 맞추려면?",
+    opts: ["-shortest 플래그 사용", "-t {duration} 명시", "-vframes 로 프레임 수 지정", "-ss로 시작점 지정"],
+    answer: 1,
+    explain: "-shortest는 zoompan과 -loop 1 조합에서 1~2초 오버런이 발생합니다. 반드시 -t {duration}으로 정확한 길이를 명시해야 합니다."
+  },
+  {
+    q: "AI 일러스트 프롬프트에서 어두운 분위기를 만들고 싶을 때, 어떤 표현을 사용해야 할까?",
+    opts: ["\"dark tones\"", "\"shadowy atmosphere\"", "\"muted purple-gray background\"", "\"black ambience\""],
+    answer: 2,
+    explain: "dark/shadow/black을 직접 사용하면 AI가 문자 그대로 해석하여 검은 화면이 됩니다. 구체적인 색상명을 사용하세요."
+  },
+  {
+    q: "브리딩 효과 v1에서 \"수전증\" 문제가 발생한 이유는?",
+    opts: ["줌 범위가 너무 컸다", "빠르고 작은 drift가 떨림처럼 보였다", "해상도가 낮았다", "프레임레이트가 낮았다"],
+    answer: 1,
+    explain: "빠르고 작은 움직임(drift ±3px, 4.2초 주기)은 카메라 떨림처럼 인식됩니다."
+  },
+  {
+    q: "build_longform()의 glob이 133초 부풀림을 일으킨 원인은?",
+    opts: ["오디오 파일이 중복됨", "B컷 세그먼트(_seg0, _seg1)가 포함됨", "해상도 불일치", "코덱 호환성 문제"],
+    answer: 1,
+    explain: "glob(\"scene_*.mp4\")가 _seg0, _seg1 임시 파일도 매칭하여 이중 concat이 발생했습니다."
+  },
+  {
+    q: "macOS에서 find_scene_image()가 잘못된 이미지를 반환한 이유는?",
+    opts: ["파일이 손상됨", "APFS glob 순서가 비결정적이라 _alt 파일이 먼저 반환", "권한 문제", "심볼릭 링크 충돌"],
+    answer: 1,
+    explain: "macOS APFS의 glob 순서는 비결정적입니다. _alt 필터링 + sorted()로 항상 원본을 먼저 반환하도록 해야 합니다."
+  },
+  {
+    q: "rembg를 패럴랙스에 사용할 수 없는 주된 이유 2가지는?",
+    opts: ["처리 속도가 너무 느림 + 메모리 부족", "머리카락 경계 거침 + 거울/말풍선도 전경 분류", "색상 변환 오류 + 해상도 손실", "GPU 미지원 + 라이선스 문제"],
+    answer: 1,
+    explain: "rembg는 (1) 세밀한 머리카락 경계를 처리 못하고, (2) 거울·말풍선 등 전면 물체 전체를 전경으로 분류합니다."
+  },
+  {
+    q: "브리딩 v3의 '양자화 계단' 문제를 해결한 방법은?",
+    opts: ["프레임레이트를 60fps로 올림", "내부 2x 업스케일 + Lanczos 다운스케일", "모션 블러 필터 추가", "drift 범위를 줄임"],
+    answer: 1,
+    explain: "1080p에서 1px 이동은 눈에 보입니다. 3840x2160 내부 처리 후 Lanczos 다운스케일로 서브픽셀 부드러움을 달성합니다."
+  },
+  {
+    q: "FLUX 모델의 워터마크 누출을 방지하려면?",
+    opts: ["네거티브 프롬프트에 \"watermark\" 추가", "\"original artwork, no artist signature, no website url\" 추가", "CFG 스케일을 높임", "시드를 고정함"],
+    answer: 1,
+    explain: "FLUX 모델은 학습 데이터의 워터마크를 재현할 수 있습니다. 명시적 방지 문구를 프롬프트에 포함하세요."
+  }
+];
+
+// ===== RENDER =====
+const categories = [...new Set(lessons.map(l => l.cat))];
+
+function renderFilters() {
+  const el = document.getElementById('filters');
+  el.innerHTML = '<button class="filter-btn active" data-cat="all" onclick="filterCards(\'all\', this)">전체</button>';
+  categories.forEach(cat => {
+    const count = lessons.filter(l => l.cat === cat).length;
+    el.innerHTML += `<button class="filter-btn" data-cat="${cat}" onclick="filterCards('${cat}', this)">${cat} (${count})</button>`;
+  });
+}
+
+function renderCards(filter = 'all') {
+  const grid = document.getElementById('grid');
+  const filtered = filter === 'all' ? lessons : lessons.filter(l => l.cat === filter);
+  grid.innerHTML = filtered.map(l => `
+    <div class="card severity-${l.severity}" onclick="this.classList.toggle('expanded')">
+      <span class="severity-badge ${l.severity}">${{critical:'치명적',medium:'중간',low:'낮음'}[l.severity]}</span>
+      <span class="cat-tag">${l.cat}</span>
+      <h3>${l.id} ${l.title}</h3>
+      <p class="symptom">${l.symptom}</p>
+      <div class="detail">
+        <div class="detail-section"><div class="label">원인</div><p>${l.cause}</p></div>
+        <div class="detail-section"><div class="label">해결</div><p>${l.solution}</p></div>
+        <div class="detail-section"><div class="label">규칙</div><p style="color:var(--accent)">${l.rule}</p></div>
+      </div>
+      <div class="expand-hint">탭하여 상세 보기</div>
+    </div>
+  `).join('');
+}
+
+function filterCards(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards(cat);
+}
+
+function renderTimeline() {
+  const el = document.getElementById('timeline');
+  el.innerHTML = breathingEvolution.map(b => `
+    <div class="tl-item ${b.success ? 'success' : ''}">
+      <span class="version">${b.ver}</span>
+      <h4>${b.name}</h4>
+      <div class="params">${b.params}</div>
+      <div class="feedback">"${b.feedback}"</div>
+      <div class="lesson">${b.lesson}</div>
+    </div>
+  `).join('');
+}
+
+// ===== QUIZ =====
+let quizIdx = 0;
+let score = 0;
+let answered = false;
+
+function renderQuiz() {
+  const card = document.getElementById('quiz-card');
+  const q = quizzes[quizIdx];
+  answered = false;
+  card.innerHTML = `
+    <p class="q"><span class="emoji">Q${quizIdx+1}/${quizzes.length}</span> ${q.q}</p>
+    <div class="quiz-options">
+      ${q.opts.map((o, i) => `<div class="quiz-opt" onclick="checkAnswer(${i})">${o}</div>`).join('')}
+    </div>
+    <div class="quiz-feedback" id="qfb"></div>
+    <div class="quiz-nav">
+      <button onclick="prevQuiz()" ${quizIdx===0?'disabled style="opacity:0.3"':''}>이전</button>
+      <span style="color:var(--muted);font-size:0.85rem">${quizIdx+1} / ${quizzes.length}</span>
+      <button onclick="nextQuiz()">${quizIdx===quizzes.length-1?'결과 보기':'다음'}</button>
+    </div>
+  `;
+}
+
+function checkAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q = quizzes[quizIdx];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach((o, i) => {
+    if (i === q.answer) o.classList.add('correct');
+    else if (i === idx) o.classList.add('wrong');
+  });
+  const fb = document.getElementById('qfb');
+  if (idx === q.answer) {
+    score++;
+    fb.className = 'quiz-feedback show right';
+    fb.textContent = '정답! ' + q.explain;
+  } else {
+    fb.className = 'quiz-feedback show wrong-fb';
+    fb.textContent = '오답. ' + q.explain;
+  }
+}
+
+function nextQuiz() {
+  if (quizIdx < quizzes.length - 1) { quizIdx++; renderQuiz(); }
+  else {
+    document.getElementById('quiz-card').innerHTML = `
+      <div style="text-align:center;padding:40px">
+        <div style="font-size:3rem;margin-bottom:16px">${score >= 6 ? '🏆' : score >= 4 ? '👍' : '📖'}</div>
+        <h3>${score} / ${quizzes.length} 정답</h3>
+        <p style="color:var(--muted);margin-top:8px">${score >= 6 ? '교훈이 체화되었습니다!' : score >= 4 ? '거의 다 왔어요. 틀린 부분만 복습!' : '카드 뷰를 다시 확인하고 도전해보세요.'}</p>
+        <button onclick="quizIdx=0;score=0;renderQuiz()" style="margin-top:20px;background:var(--accent);border:none;color:#fff;padding:10px 24px;border-radius:10px;cursor:pointer">다시 도전</button>
+      </div>
+    `;
+  }
+}
+
+function prevQuiz() {
+  if (quizIdx > 0) { quizIdx--; renderQuiz(); }
+}
+
+// ===== TABS =====
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.tab-content#tab-${tab}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ===== INIT =====
+renderFilters();
+renderCards();
+renderTimeline();
+renderQuiz();
+</script>
+</body>
+</html>

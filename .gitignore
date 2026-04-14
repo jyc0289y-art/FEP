@@ -1,0 +1,30 @@
+.env
+.env.*
+.claude/
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+dist/
+build/
+
+# Large binary assets (tracked in worklog, not git)
+EP01_forced_compliment/scenes/
+EP01_forced_compliment/output/
+EP01_forced_compliment/overlaid/
+EP01_forced_compliment/clips/
+EP01_forced_compliment/liveportrait_out/
+EP01_forced_compliment/qa_frames/
+EP01_forced_compliment/v3_layers/locations/*.png
+EP01_forced_compliment/v3_layers/characters/*.png
+EP01_forced_compliment/v3_layers/characters_txt2img_backup/
+EP01_forced_compliment/v3_layers/alphas/*.png
+EP01_forced_compliment/v3_layers/scenes/*.png
+EP01_forced_compliment/v3_layers/lp/
+EP01_forced_compliment/audio/
+EP01_forced_compliment/backup/
+characters/*.png
+comfyui_workflows/
+
+# Memory (session files are local)
+memory/

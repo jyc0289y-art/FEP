@@ -1,0 +1,45 @@
+{
+  "dates": ["2026-04-12", "2026-04-13", "2026-04-14"],
+  "last_updated": "2026-04-14T11:43:00",
+  "project": {
+    "name": "FEP - 익숙한 경험의 심리학",
+    "current_episode": "EP01",
+    "episode_title": "강요된 칭찬의 심리학"
+  },
+  "phases": {
+    "Phase 8a": { "name": "시네마틱 각본 v2", "status": "done" },
+    "Phase 8a-2": { "name": "연출 원칙 + TTS 전략", "status": "done" },
+    "Phase 8b": { "name": "각본 사용자 검수", "status": "done" },
+    "Phase 8c": { "name": "쇼츠 각본 + BGM 설계", "status": "done" },
+    "Phase 8c-2": { "name": "Typecast 보이스 캐스팅", "status": "done" },
+    "Phase 8d": { "name": "v2 일러스트 생성", "status": "in_progress" },
+    "Phase 8e": { "name": "Typecast TTS 녹음", "status": "pending" },
+    "Phase 8f": { "name": "build_video v2 구조", "status": "pending" },
+    "Phase 8g": { "name": "BGM/SFX 소싱 + 믹싱", "status": "pending" },
+    "Phase 8h": { "name": "영상 조립 + QA", "status": "pending" },
+    "Phase 8i": { "name": "업로드 준비", "status": "pending" }
+  },
+  "assets": {
+    "locations": 8,
+    "characters_style_a": 4,
+    "characters_style_b": 4,
+    "composites": 0,
+    "scenes_v1": 31,
+    "lp_animations": 14
+  },
+  "milestones": [
+    { "text": "v1 파이프라인 완료", "done": true, "date": "2026-04-12" },
+    { "text": "시네마틱 각본 v2 확정", "done": true, "date": "2026-04-13" },
+    { "text": "보이스 캐스팅 후보 선별", "done": true, "date": "2026-04-13" },
+    { "text": "v3 레이어 시스템 설계", "done": true, "date": "2026-04-14" },
+    { "text": "로케이션 8장 생성", "done": true, "date": "2026-04-14" },
+    { "text": "듀얼 그림체 시스템 도입", "done": true, "date": "2026-04-14" },
+    { "text": "캐릭터 포즈 라이브러리 완성", "done": false, "date": null },
+    { "text": "씬 합성 완료 (23개)", "done": false, "date": null },
+    { "text": "Typecast TTS 녹음 완료", "done": false, "date": null },
+    { "text": "BGM/SFX 믹싱 완료", "done": false, "date": null },
+    { "text": "롱폼 영상 최종 완성", "done": false, "date": null },
+    { "text": "쇼츠 5편 완성", "done": false, "date": null },
+    { "text": "YouTube 업로드", "done": false, "date": null }
+  ]
+}

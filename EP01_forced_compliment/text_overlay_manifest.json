@@ -1,0 +1,126 @@
+{
+  "scene_01_title": [
+    {
+      "type": "speech_bubble",
+      "text_ko": "나 예쁘지?",
+      "text_ja": "私かわいいでしょ？",
+      "text_en": "I'm pretty, right?"
+    }
+  ],
+  "scene_04_narcissistic_supply": [
+    {
+      "type": "bubbles_fill",
+      "text_ko": "예쁘다",
+      "text_ja": "かわいい",
+      "text_en": "Pretty"
+    }
+  ],
+  "scene_06_autonomy": [
+    {
+      "type": "thought_bubble",
+      "text_ko": "답이 정해져 있는데\n왜 물어보는 건데...",
+      "text_ja": "答えは決まってるのに\nなんで聞くんだよ...",
+      "text_en": "The answer's already decided...\nWhy even ask?"
+    }
+  ],
+  "scene_07_vending_machine": [
+    {
+      "type": "button_label",
+      "text_ko": "칭찬",
+      "text_ja": "褒め",
+      "text_en": "Compliment"
+    }
+  ],
+  "scene_08_cognitive_dissonance": [
+    {
+      "type": "angel_bubble",
+      "text_ko": "그냥 예쁘다고 해",
+      "text_ja": "かわいいって言えよ",
+      "text_en": "Just say she's pretty"
+    },
+    {
+      "type": "devil_bubble",
+      "text_ko": "근데 진심은 아닌데...",
+      "text_ja": "でも本心じゃないし...",
+      "text_en": "But it's not sincere..."
+    }
+  ],
+  "scene_10_balance": [
+    {
+      "type": "scale_label",
+      "text_ko": [
+        "솔직함",
+        "관계의 평화"
+      ],
+      "text_ja": [
+        "正直さ",
+        "関係の平和"
+      ],
+      "text_en": [
+        "Honesty",
+        "Peace"
+      ]
+    }
+  ],
+  "scene_11_rationalization": [
+    {
+      "type": "thought_bubble",
+      "text_ko": "뭐... 실제로 안 예쁜 것도\n아니니까...",
+      "text_ja": "まぁ...実際かわいくない\nわけでもないし...",
+      "text_en": "Well... it's not like\nshe's NOT pretty..."
+    }
+  ],
+  "scene_12_learned_helplessness": [
+    {
+      "type": "speech_bubble",
+      "text_ko": "응... 예뻐...",
+      "text_ja": "うん...かわいいよ...",
+      "text_en": "Yeah... you're pretty..."
+    }
+  ],
+  "scene_13_comparison": [
+    {
+      "type": "split_labels",
+      "text_ko": [
+        "가스라이팅:\n현실 인식 왜곡",
+        "이 상황:\n답 강요"
+      ],
+      "text_ja": [
+        "ガスライティング:\n現実認識の歪曲",
+        "この状況:\n答えの強要"
+      ],
+      "text_en": [
+        "Gaslighting:\nDistorting reality",
+        "This situation:\nForcing an answer"
+      ]
+    }
+  ],
+  "scene_14_summary": [
+    {
+      "type": "character_labels",
+      "text_ko": [
+        "칭찬의 소비자",
+        "칭찬 거래의 거부자",
+        "칭찬의 공급자"
+      ],
+      "text_ja": [
+        "褒めの消費者",
+        "褒め取引の拒否者",
+        "褒めの供給者"
+      ],
+      "text_en": [
+        "Compliment Consumer",
+        "Compliment Refuser",
+        "Compliment Supplier"
+      ]
+    }
+  ],
+  "scene_15_outro": [
+    {
+      "type": "cta",
+      "text_ko": "구독 & 좋아요",
+      "text_ja": "チャンネル登録 & いいね",
+      "text_en": "Subscribe & Like"
+    }
+  ]
+}
