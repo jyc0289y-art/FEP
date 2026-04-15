@@ -352,9 +352,9 @@ function render() {
     { value: d.assets.locations, label: 'Locations' },
     { value: d.assets.characters_style_a, label: 'Chars (A)' },
     { value: d.assets.characters_style_b, label: 'Chars (B)' },
-    { value: d.assets.composites, label: 'Composites' },
-    { value: d.assets.scenes_v1, label: 'Scenes (v1)' },
+    { value: (d.assets.composites_portrait||0) + (d.assets.composites_scene||0), label: 'Composites' },
     { value: d.assets.lp_animations, label: 'LP Anim' },
+    { value: (d.assets.bubbles||0) + (d.assets.angel_devil||0) + (d.assets.kongi_poses||0), label: 'FX Assets' },
   ];
   statsEl.innerHTML = stats.map(s =>
     `<div class="stat-card"><div class="value">${s.value}</div><div class="label">${s.label}</div></div>`

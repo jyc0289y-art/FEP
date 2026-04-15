@@ -1,0 +1,223 @@
+{
+  "meta": {
+    "episode": "EP01",
+    "title": "강요된 칭찬의 심리학",
+    "version": "2.1",
+    "types": {
+      "A": {"name": "대사 말풍선", "style": "speech_bubble", "desc": "캐릭터 대사 — 둥근 말풍선 + 꼬리"},
+      "B": {"name": "내면 독백", "style": "thought_bubble", "desc": "내면 독백 — 구름 모양 + 점 꼬리"},
+      "C": {"name": "심리학 용어+주석", "style": "lower_third", "desc": "심리학 개념 — 하단 자막 박스 (용어+영어+주석)"},
+      "D": {"name": "킬링 라인", "style": "emphasis", "desc": "임팩트 강조 — 화면 중앙 큰 텍스트"},
+      "E": {"name": "구조 라벨", "style": "structure_label", "desc": "막 전환 — 좌상단 작은 라벨"}
+    }
+  },
+  "overlays": [
+    {
+      "clip_id": "00_prologue",
+      "scene": "S-00",
+      "items": [
+        {"type": "E", "text": "프롤로그", "position": "top_left", "start_ratio": 0.0, "duration_ratio": 0.15},
+        {"type": "D", "text": "\"나 예쁘지?\"", "position": "center", "start_ratio": 0.35, "duration_ratio": 0.25, "style_override": {"font_size": 72, "color": "#FFFFFF", "shadow": true}}
+      ]
+    },
+    {
+      "clip_id": "00_prologue",
+      "scene": "S-01",
+      "items": [
+        {"type": "D", "text": "이건 질문이 아니거든요.", "position": "center_bottom", "start_ratio": 0.55, "duration_ratio": 0.20, "style_override": {"font_size": 52}}
+      ]
+    },
+    {
+      "clip_id": "01_siblings",
+      "scene": "S-03",
+      "items": [
+        {"type": "E", "text": "1막 — 그 질문", "position": "top_left", "start_ratio": 0.0, "duration_ratio": 0.20}
+      ]
+    },
+    {
+      "clip_id": "01_siblings",
+      "scene": "S-04",
+      "items": [
+        {"type": "A", "text": "오빠.\n나 예쁘지?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.0, "duration_ratio": 1.0, "style_override": {"color": "#FFB6C1"}}
+      ]
+    },
+    {
+      "clip_id": "01_siblings",
+      "scene": "S-06",
+      "items": [
+        {"type": "A", "text": "왜 대답을 안 해?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.0, "duration_ratio": 0.15},
+        {"type": "A", "text": "...응.", "speaker": "민준", "position": "right_bubble", "start_ratio": 0.17, "duration_ratio": 0.10, "style_override": {"font_size": 28, "color": "#B0B0B0"}},
+        {"type": "A", "text": "\"응\"이 뭐야.\n제대로 말해.", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.30, "duration_ratio": 0.15},
+        {"type": "A", "text": "...예뻐.", "speaker": "민준", "position": "right_bubble", "start_ratio": 0.48, "duration_ratio": 0.10, "style_override": {"font_size": 28, "color": "#B0B0B0"}},
+        {"type": "A", "text": "그치?\n나 오늘 진짜 예쁘지?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.62, "duration_ratio": 0.18}
+      ]
+    },
+    {
+      "clip_id": "02_baby",
+      "scene": "S-07",
+      "items": [
+        {"type": "A", "text": "콩아~ 이모 예쁘지~?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.05, "duration_ratio": 0.40},
+        {"type": "A", "text": "그치~?\n콩이도 이모가\n제일 예쁜 거 알지~?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.55, "duration_ratio": 0.40}
+      ]
+    },
+    {
+      "clip_id": "02_baby",
+      "scene": "S-08",
+      "items": [
+        {"type": "D", "text": "이건 질문이 아니라는 뜻입니다.", "position": "center_bottom", "start_ratio": 0.50, "duration_ratio": 0.30, "style_override": {"font_size": 48}}
+      ]
+    },
+    {
+      "clip_id": "03_validation",
+      "scene": "S-08",
+      "items": [
+        {"type": "C", "text": "확인 추구 행동\nValidation-seeking", "annotation": "자기 가치 확신을 '외부'에서 얻으려는 패턴", "position": "lower_third", "start_ratio": 0.10, "duration_ratio": 0.45},
+        {"type": "D", "text": "질문의 형식을 빌린,\n일종의 의식.", "position": "center", "start_ratio": 0.70, "duration_ratio": 0.25, "style_override": {"font_size": 48}}
+      ]
+    },
+    {
+      "clip_id": "04_transition",
+      "scene": "S-05",
+      "items": [
+        {"type": "D", "text": "어떤 선택지가\n남아있을까요?", "position": "center", "start_ratio": 0.30, "duration_ratio": 0.50, "style_override": {"font_size": 56, "fade_in": 0.5}}
+      ]
+    },
+    {
+      "clip_id": "05_minjun_pov",
+      "scene": "S-09",
+      "items": [
+        {"type": "E", "text": "2막 — 세 사람의 진실", "position": "top_left", "start_ratio": 0.0, "duration_ratio": 0.20}
+      ]
+    },
+    {
+      "clip_id": "05_minjun_pov",
+      "scene": "S-10",
+      "items": [
+        {"type": "B", "text": "답이 정해져 있는데\n왜 물어보는 건데.", "speaker": "민준", "position": "right_thought", "start_ratio": 0.10, "duration_ratio": 0.35},
+        {"type": "C", "text": "자율성 침해\nAutonomy Violation", "annotation": "답이 정해진 질문 = 판단권 박탈", "position": "lower_third", "start_ratio": 0.55, "duration_ratio": 0.40}
+      ]
+    },
+    {
+      "clip_id": "06_coerced",
+      "scene": "S-11",
+      "items": [
+        {"type": "C", "text": "강요된 동의\nCoerced Compliance", "annotation": "질문의 형식을 빌린 동의 강제", "position": "lower_third", "start_ratio": 0.40, "duration_ratio": 0.35},
+        {"type": "D", "text": "동의를 강제하는 겁니다.", "position": "center_bottom", "start_ratio": 0.80, "duration_ratio": 0.18, "style_override": {"font_size": 44}}
+      ]
+    },
+    {
+      "clip_id": "07_vending",
+      "scene": "S-12",
+      "items": [
+        {"type": "D", "text": "[ 칭찬 ]", "position": "center_label", "start_ratio": 0.0, "duration_ratio": 0.50, "style_override": {"font_size": 32, "color": "#FF69B4"}},
+        {"type": "D", "text": "→ 예뻐", "position": "center_bottom", "start_ratio": 0.08, "duration_ratio": 0.40, "style_override": {"font_size": 28, "color": "#90EE90"}},
+        {"type": "D", "text": "나는 칭찬 자판기가\n아닌데.", "position": "center", "start_ratio": 0.15, "duration_ratio": 0.30, "style_override": {"font_size": 56}},
+        {"type": "C", "text": "도구적 관계\nInstrumental Relationship", "annotation": "\"나\"가 아니라 \"나의 기능\"만 필요한 관계", "position": "lower_third", "start_ratio": 0.55, "duration_ratio": 0.35}
+      ]
+    },
+    {
+      "clip_id": "08_dissonance_boundary",
+      "scene": "S-13",
+      "items": [
+        {"type": "A", "text": "그냥 예쁘다고 해.", "speaker": "천사", "position": "left_bubble", "start_ratio": 0.05, "duration_ratio": 0.25, "style_override": {"color": "#FFD700"}},
+        {"type": "A", "text": "근데 진심은\n아닌데...", "speaker": "악마", "position": "right_bubble", "start_ratio": 0.15, "duration_ratio": 0.25, "style_override": {"color": "#9370DB"}},
+        {"type": "C", "text": "인지부조화\nCognitive Dissonance", "annotation": "모순된 두 믿음이 동시에 존재할 때의 불쾌한 긴장", "position": "lower_third", "start_ratio": 0.45, "duration_ratio": 0.45}
+      ]
+    },
+    {
+      "clip_id": "08_dissonance_boundary",
+      "scene": "S-14",
+      "items": [
+        {"type": "D", "text": "대답해주기 싫다.\n이 감정.", "position": "center", "start_ratio": 0.0, "duration_ratio": 0.20, "style_override": {"font_size": 48}},
+        {"type": "C", "text": "심리적 경계\nPsychological Boundary", "annotation": "타인의 감정적 요구를 거부하는 건강한 자기보호", "position": "lower_third", "start_ratio": 0.35, "duration_ratio": 0.35},
+        {"type": "D", "text": "아주 건강한\n심리적 반응입니다.", "position": "center_bottom", "start_ratio": 0.75, "duration_ratio": 0.22, "style_override": {"font_size": 44, "color": "#90EE90"}}
+      ]
+    },
+    {
+      "clip_id": "09_jiwoo_intro",
+      "scene": "S-15",
+      "items": [
+        {"type": "D", "text": "같은 질문.\n다른 사람.", "position": "center", "start_ratio": 0.0, "duration_ratio": 0.25, "style_override": {"font_size": 56, "fade_in": 0.3}},
+        {"type": "A", "text": "지우야, 나 오늘\n새 옷 샀거든?\n예쁘지?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.50, "duration_ratio": 0.45}
+      ]
+    },
+    {
+      "clip_id": "09_jiwoo_intro",
+      "scene": "S-16",
+      "items": [
+        {"type": "B", "text": "솔직하게 말해?\n아니면\n그냥 예쁘다고 해?", "speaker": "지우", "position": "right_thought", "start_ratio": 0.10, "duration_ratio": 0.35},
+        {"type": "B", "text": "이 한마디면\n끝나잖아.", "speaker": "지우", "position": "right_thought", "start_ratio": 0.55, "duration_ratio": 0.25},
+        {"type": "C", "text": "관계 유지 동기\nRelational Maintenance", "annotation": "솔직함 < 관계의 평화 → 3초면 끝나는 거래", "position": "lower_third", "start_ratio": 0.70, "duration_ratio": 0.28}
+      ]
+    },
+    {
+      "clip_id": "09_jiwoo_intro",
+      "scene": "S-17",
+      "items": [
+        {"type": "A", "text": "어, 예쁘다!", "speaker": "지우", "position": "right_bubble", "start_ratio": 0.10, "duration_ratio": 0.40},
+        {"type": "A", "text": "그치~?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.60, "duration_ratio": 0.35}
+      ]
+    },
+    {
+      "clip_id": "10_rationalize",
+      "scene": "S-18",
+      "items": [
+        {"type": "B", "text": "뭐... 실제로\n안 예쁜 것도\n아니니까...", "speaker": "지우", "position": "right_thought", "start_ratio": 0.10, "duration_ratio": 0.35},
+        {"type": "C", "text": "자기 합리화\nSelf-justification", "annotation": "행동을 바꾸는 대신 신념을 바꿔서 부조화 해소", "position": "lower_third", "start_ratio": 0.55, "duration_ratio": 0.40}
+      ]
+    },
+    {
+      "clip_id": "11_helplessness",
+      "scene": "S-19",
+      "items": [
+        {"type": "D", "text": "어차피 거절해도...\n또 물어볼 거잖아.", "position": "center", "start_ratio": 0.30, "duration_ratio": 0.30, "style_override": {"font_size": 48}},
+        {"type": "C", "text": "학습된 무력감\nLearned Helplessness", "annotation": "반복된 거절 실패 → 저항 자체를 포기", "position": "lower_third", "start_ratio": 0.65, "duration_ratio": 0.30}
+      ]
+    },
+    {
+      "clip_id": "11_helplessness",
+      "scene": "S-20",
+      "items": [
+        {"type": "D", "text": "그냥...\n좀 피곤한 거예요.", "position": "center", "start_ratio": 0.40, "duration_ratio": 0.35, "style_override": {"font_size": 44, "color": "#A0A0C0"}}
+      ]
+    },
+    {
+      "clip_id": "12_subin_reversal",
+      "scene": "S-21",
+      "items": [
+        {"type": "E", "text": "2막C — 수빈의 진실", "position": "top_left", "start_ratio": 0.0, "duration_ratio": 0.15},
+        {"type": "C", "text": "나르시시즘적 공급\nNarcissistic Supply", "annotation": "타인의 칭찬으로 자존감을 유지하려는 패턴", "position": "lower_third", "start_ratio": 0.30, "duration_ratio": 0.30},
+        {"type": "D", "text": "누군가가 나를\n예쁘다고 말해주는\n그 순간이...\n필요한 거예요.", "position": "center", "start_ratio": 0.55, "duration_ratio": 0.35, "style_override": {"font_size": 44, "color": "#DDA0DD"}}
+      ]
+    },
+    {
+      "clip_id": "13_gaslighting",
+      "scene": "S-22",
+      "items": [
+        {"type": "E", "text": "3막 — 다섯 글자의 무게", "position": "top_left", "start_ratio": 0.0, "duration_ratio": 0.15},
+        {"type": "D", "text": "\"이거 가스라이팅\n아니야?\"", "position": "center", "start_ratio": 0.10, "duration_ratio": 0.15, "style_override": {"font_size": 52}},
+        {"type": "D", "text": "아닙니다.", "position": "center", "start_ratio": 0.28, "duration_ratio": 0.12, "style_override": {"font_size": 64, "color": "#FF6B6B"}},
+        {"type": "C", "text": "가스라이팅 ≠ 강요된 동의\nGaslighting ≠ Coerced Compliance", "annotation": "현실 인식 왜곡 ≠ 정해진 답 강요", "position": "lower_third", "start_ratio": 0.45, "duration_ratio": 0.35},
+        {"type": "D", "text": "정확한 용어를 아는 것.\n그게 내 감정을 제대로\n이해하는 첫걸음입니다.", "position": "center_bottom", "start_ratio": 0.82, "duration_ratio": 0.16, "style_override": {"font_size": 36}}
+      ]
+    },
+    {
+      "clip_id": "14_structure",
+      "scene": "S-23",
+      "items": [
+        {"type": "D", "text": "수빈 — 칭찬의 소비자\n확인 추구 행동 · 나르시시즘적 공급", "position": "left_label", "start_ratio": 0.15, "duration_ratio": 0.20, "style_override": {"font_size": 24, "color": "#FFB6C1"}},
+        {"type": "D", "text": "민준 — 칭찬 거래의 거부자\n자율성 침해 · 심리적 경계 · 인지부조화", "position": "center_label", "start_ratio": 0.38, "duration_ratio": 0.20, "style_override": {"font_size": 24, "color": "#87CEEB"}},
+        {"type": "D", "text": "지우 — 칭찬의 공급자\n관계 유지 동기 · 자기 합리화 · 학습된 무력감", "position": "right_label", "start_ratio": 0.60, "duration_ratio": 0.20, "style_override": {"font_size": 24, "color": "#98FB98"}},
+        {"type": "D", "text": "누구도 나쁜 사람이\n아닙니다.", "position": "center_bottom", "start_ratio": 0.82, "duration_ratio": 0.16, "style_override": {"font_size": 48}}
+      ]
+    },
+    {
+      "clip_id": "15_epilogue",
+      "scene": "S-24",
+      "items": [
+        {"type": "E", "text": "에필로그", "position": "top_left", "start_ratio": 0.0, "duration_ratio": 0.12},
+        {"type": "D", "text": "아마...\n조금 다르게\n느껴질 겁니다.", "position": "center", "start_ratio": 0.65, "duration_ratio": 0.30, "style_override": {"font_size": 52, "fade_in": 0.8}}
+      ]
+    }
+  ]
+}

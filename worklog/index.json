@@ -1,6 +1,6 @@
 {
   "dates": ["2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15"],
-  "last_updated": "2026-04-15T07:30:00",
+  "last_updated": "2026-04-15T08:50:00",
   "project": {
     "name": "FEP - 일상속 경험의 심리학",
     "current_episode": "EP01",
@@ -48,6 +48,9 @@
     { "text": "콩이 포즈 8종 완료", "done": true, "date": "2026-04-15" },
     { "text": "build_video_v3 LP+말풍선 통합", "done": true, "date": "2026-04-15" },
     { "text": "S-06 LP+말풍선 프리뷰 완성", "done": true, "date": "2026-04-15" },
+    { "text": "S-06 QA 5개 이슈 수정 완료", "done": true, "date": "2026-04-15" },
+    { "text": "LP 포트레이트 4씬 추가 (S-10/16/17/21)", "done": true, "date": "2026-04-15" },
+    { "text": "말풍선 꼬리 방향+캐릭터 정렬 수정", "done": true, "date": "2026-04-15" },
     { "text": "Typecast TTS 녹음 완료", "done": false, "date": null },
     { "text": "BGM/SFX 믹싱 완료", "done": false, "date": null },
     { "text": "롱폼 영상 최종 완성", "done": false, "date": null },

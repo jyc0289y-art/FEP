@@ -75,11 +75,19 @@ def apply_color_grade(img, tone="warm"):
         enhancer = ImageEnhance.Color(img)
         return enhancer.enhance(0.6)
     elif tone == "night_phone":
-        # 밤 폰빛
+        # 밤 폰빛 — v2: 밝기 상향 + 중앙 림라이트
         enhancer = ImageEnhance.Brightness(img)
-        img = enhancer.enhance(0.25)
-        arr = np.array(img)
-        arr[:, :, 2] = np.clip(arr[:, :, 2] * 1.3, 0, 255)  # 블루 틴트
+        img = enhancer.enhance(0.55)  # 0.25→0.55 (캐릭터 가시성 확보)
+        arr = np.array(img, dtype=np.float64)
+        arr[:, :, 2] = np.clip(arr[:, :, 2] * 1.2, 0, 255)  # 블루 틴트 (약화)
+        # 중앙 비네팅 역전: 중앙이 밝고 가장자리가 어둡게 (폰 빛 시뮬레이션)
+        h, w = arr.shape[:2]
+        Y, X = np.ogrid[:h, :w]
+        cx, cy = w * 0.45, h * 0.45  # 약간 좌상단 (캐릭터 얼굴 위치)
+        dist = np.sqrt(((X - cx) / (w * 0.5)) ** 2 + ((Y - cy) / (h * 0.5)) ** 2)
+        vignette = np.clip(1.0 - dist * 0.4, 0.5, 1.0)  # 0.5~1.0 범위
+        for c in range(3):
+            arr[:, :, c] = np.clip(arr[:, :, c] * vignette, 0, 255)
         return Image.fromarray(arr.astype(np.uint8))
     elif tone == "split_warm_cool":
         # 좌우 분할 (왼쪽 차가운, 오른쪽 따뜻한)
@@ -108,209 +116,258 @@ def adjust_opacity(img, opacity):
 
 
 # === 씬별 합성 레시피 ===
-# 각 씬은 배경 + 캐릭터 배치 + 후처리를 정의
+# 좌표 설계 원칙:
+#   - Style A (800x1328 세로): 캔버스 높이 대비 scale로 크기 결정, x/y로 위치 배치
+#   - Style B (1344x768 가로): 캔버스와 동일 해상도. scale=1.0이면 1:1 오버레이.
+#     캐릭터가 이미지 내 자연스러운 위치에 있으므로 x=0,y=0이 기본.
+#     미세 조정만 필요. shift_x, shift_y 개념으로 사용.
+# alpha_pattern: 캐릭터 키에 맞춤 (A_xxx = Style A 흰배경, B_xxx = Style B 크로마키)
 SCENE_RECIPES = {
+    # ── 프롤로그 ──
     "S-01": {
         "bg_pattern": "loc_LOC_bathroom",
         "layers": [
-            {"alpha_pattern": "alpha_subin_mirror", "x": 0.35, "y": 0.1, "scale": 0.85}
+            # 수빈 혼자 거울 보는 장면. 중앙 배치, 전신 보이게.
+            {"alpha_pattern": "alpha_A_subin_mirror", "x": 0.28, "y": 0.03, "scale": 0.92}
         ],
         "post": None,
-        "note": "거울 앞 수빈"
+        "note": "거울 앞 수빈 혼자 — 자기만족의 세계 (스타일A)"
     },
+
+    # ── 1막: 그 질문 ──
     "S-03": {
         "bg_pattern": "loc_LOC_livingroom_afternoon",
         "layers": [
-            {"alpha_pattern": "alpha_minjun_sofa_lazy", "x": 0.15, "y": 0.2, "scale": 0.9}
+            # 민준이 소파에 누워 폰 보는 장면. 소파 중앙 위치.
+            {"alpha_pattern": "alpha_A_minjun_sofa", "x": 0.27, "y": 0.05, "scale": 0.88}
         ],
         "post": None,
-        "note": "거실 소파 민준"
+        "note": "거실 소파 민준 — 폭풍 전 고요 (스타일A)"
     },
     "S-04": {
         "bg_pattern": "loc_LOC_livingroom_afternoon",
         "layers": [
-            {"alpha_pattern": "alpha_minjun_sofa_lazy", "x": 0.6, "y": 0.25, "scale": 0.55, "opacity": 0.85},
-            {"alpha_pattern": "alpha_subin_entrance", "x": 0.2, "y": 0.05, "scale": 0.85}
+            # 각본: "수빈은 화면 중앙에서 빛을 받고, 민준은 구석에서 그늘에 있다"
+            # 민준 먼저(뒤에), 수빈 나중에(앞에) — 레이어 순서 = 그리기 순서
+            {"alpha_pattern": "alpha_A_minjun_sofa", "x": 0.62, "y": 0.15, "scale": 0.55, "opacity": 0.8},
+            {"alpha_pattern": "alpha_A_subin_entrance", "x": 0.25, "y": 0.02, "scale": 0.92}
         ],
         "post": None,
-        "note": "수빈 등장 (수빈 중앙, 민준 구석)"
+        "note": "수빈 등장 — 수빈 중앙+빛, 민준 우측 구석+그늘 (스타일A)"
     },
     "S-05": {
+        # 각본: "민준의 얼굴 클로즈업. 배경 없이."
         "bg_pattern": None,
         "bg_color": (245, 230, 215, 255),
         "layers": [
-            {"alpha_pattern": "alpha_minjun_reaction", "x": 0.15, "y": 0.05, "scale": 1.0}
+            # Style B 클로즈업 — 이미 프레임 채움. 1:1 오버레이.
+            {"alpha_pattern": "alpha_B_minjun_reaction", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": None,
-        "note": "민준 리액션 클로즈업 (추상 배경)"
+        "note": "민준 리액션 클로즈업 — 추상 배경 (스타일B)"
     },
     "S-06": {
         "bg_pattern": "loc_LOC_livingroom_afternoon",
         "layers": [
-            {"alpha_pattern": "alpha_minjun_sofa_shrink", "x": 0.55, "y": 0.2, "scale": 0.65},
-            {"alpha_pattern": "alpha_subin_lean", "x": 0.15, "y": 0.0, "scale": 0.9}
+            # 각본: "수빈이 민준을 내려다보는 위치. 수빈 크게, 민준 움츠림."
+            # 민준(뒤, 우측) → 수빈(앞, 좌측+크게) — 두 캐릭터 모두 보이게 배치
+            {"alpha_pattern": "alpha_B_minjun_shrink", "x": 0.25, "y": 0.05, "scale": 0.80},
+            {"alpha_pattern": "alpha_B_subin_lean", "x": -0.20, "y": -0.02, "scale": 1.0}
         ],
         "post": None,
-        "note": "수빈 압박 (내려다보는 구도)"
+        "note": "수빈 압박 — 수빈 크게(지배), 민준 작게(움츠림) (스타일B)"
     },
     "S-07": {
         "bg_pattern": "loc_LOC_livingroom_afternoon",
         "layers": [
-            {"alpha_pattern": "alpha_kongi_sitting", "x": 0.45, "y": 0.45, "scale": 0.4},
-            {"alpha_pattern": "alpha_subin_baby", "x": 0.2, "y": 0.15, "scale": 0.75}
+            # 각본: "수빈이 콩이 앞에 쪼그려 앉아있다. 콩이는 바닥에."
+            # 콩이(작게) 뒤, 수빈(쪼그린 채) 앞
+            {"alpha_pattern": "alpha_A_kongi_sitting", "x": 0.55, "y": 0.35, "scale": 0.55},
+            {"alpha_pattern": "alpha_B_subin_baby_crouch", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": None,
-        "note": "수빈+콩이"
+        "note": "수빈+콩이 — 수빈 쪼그려 앉고 콩이 바닥 (스타일 혼합)"
     },
     "S-08": {
         "bg_pattern": "loc_LOC_livingroom_afternoon",
         "layers": [
-            {"alpha_pattern": "alpha_minjun_observing", "x": 0.3, "y": 0.15, "scale": 0.75}
+            # 각본: "민준이 소파에서 멀리서 바라본다. 폰 내려놓음. 무언가를 읽는 눈."
+            {"alpha_pattern": "alpha_B_minjun_observe", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": None,
-        "note": "민준 관찰"
+        "note": "민준 관찰 — 소파에서 지켜보는 시선 (스타일B)"
     },
+
+    # ── 2막A: 민준의 진실 ──
     "S-09": {
+        # 각본: "같은 거실, 색감 차가움. 수빈 흐릿+멈춤, 민준만 선명."
         "bg_pattern": "loc_LOC_livingroom_cold",
         "layers": [
-            {"alpha_pattern": "alpha_subin_entrance", "x": 0.55, "y": 0.1, "scale": 0.7, "blur": 5, "opacity": 0.4},
-            {"alpha_pattern": "alpha_minjun_observing", "x": 0.2, "y": 0.15, "scale": 0.8}
+            {"alpha_pattern": "alpha_A_subin_entrance", "x": 0.52, "y": 0.05, "scale": 0.65, "blur": 5, "opacity": 0.35},
+            {"alpha_pattern": "alpha_B_minjun_observe", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": "cold_desaturated",
-        "note": "되감기 (수빈 흐릿, 민준 선명, 차가운 톤)"
+        "note": "되감기 — 수빈 흐릿(유령), 민준 선명, 차가운 톤"
     },
     "S-10": {
+        # 각본: "민준 클로즈업. 배경 완전히 사라짐. 단색."
         "bg_pattern": None,
         "bg_color": (200, 210, 220, 255),
         "layers": [
-            {"alpha_pattern": "alpha_minjun_closeup_fatigue", "x": 0.15, "y": 0.05, "scale": 1.0}
+            {"alpha_pattern": "alpha_B_minjun_fatigue", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": None,
-        "note": "민준 내면 클로즈업 (추상 배경)"
+        "note": "민준 내면 독백 — 피로+짜증 클로즈업 (스타일B)"
     },
     "S-11": {
+        # 각본: "민준 보이지 않는 벽에 등. 수빈 환한 미소로 앞에. 수빈만 밝고 민준 어둡다."
+        # 민준 우측(뒤), 수빈 좌측(앞) — 좌우 분리 배치
         "bg_pattern": "loc_LOC_livingroom_afternoon",
         "layers": [
-            {"alpha_pattern": "alpha_minjun_cornered", "x": 0.6, "y": 0.1, "scale": 0.7},
-            {"alpha_pattern": "alpha_subin_entrance", "x": 0.15, "y": 0.05, "scale": 0.8}
+            {"alpha_pattern": "alpha_B_minjun_cornered", "x": 0.20, "y": 0.0, "scale": 0.90, "opacity": 0.85},
+            {"alpha_pattern": "alpha_B_subin_lean", "x": -0.22, "y": -0.02, "scale": 1.0}
         ],
         "post": None,
-        "note": "코너에 몰린 민준 (드라마틱 조명은 후처리)"
+        "note": "코너에 몰린 민준 — 수빈의 밝은 에너지가 압박 (스타일B)"
     },
     "S-12": {
+        # 각본: "민준이 자판기 형태, 수빈이 버튼 누름. 코믹."
         "bg_pattern": None,
         "bg_color": (255, 245, 230, 255),
         "layers": [
-            {"alpha_pattern": "alpha_minjun_vending", "x": 0.2, "y": 0.05, "scale": 0.9}
+            {"alpha_pattern": "alpha_A_minjun_vending", "x": 0.10, "y": -0.08, "scale": 1.30}
         ],
         "post": None,
-        "note": "자판기 메타포"
+        "note": "자판기 메타포 — 코믹 환기 (스타일A)"
     },
     "S-13": {
+        # 각본: "민준 양쪽 어깨 위 천사/악마. 지친 중립 표정."
         "bg_pattern": None,
         "bg_color": (240, 235, 225, 255),
         "layers": [
-            {"alpha_pattern": "alpha_minjun_angel_devil", "x": 0.2, "y": 0.05, "scale": 0.9}
+            {"alpha_pattern": "alpha_B_minjun_angel", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": None,
-        "note": "천사/악마"
+        "note": "천사/악마 인지부조화 (스타일B)"
     },
     "S-14": {
+        # 각본: "민준 앞에 투명 방어막. 안쪽 따뜻한 빛. 조용한 단단함."
         "bg_pattern": None,
         "bg_color": (235, 240, 235, 255),
         "layers": [
-            {"alpha_pattern": "alpha_minjun_boundary", "x": 0.2, "y": 0.05, "scale": 0.9}
+            {"alpha_pattern": "alpha_B_minjun_boundary", "x": -0.10, "y": -0.15, "scale": 1.35}
         ],
         "post": None,
-        "note": "방어막/경계선"
+        "note": "심리적 경계선 — 차분한 단단함 (스타일B)"
     },
+
+    # ── 2막B: 지우의 진실 ──
     "S-15": {
+        # 각본: "카페 창가. 수빈 밝은 표정+쇼핑백, 지우 커피 감싸기."
+        # 지우(B, 뒤쪽 우측) + 수빈(A, 앞쪽 좌측) — 수빈 스케일 키워서 자연스럽게
         "bg_pattern": "loc_LOC_cafe_sunny",
         "layers": [
-            {"alpha_pattern": "alpha_jiwoo_cafe_defensive", "x": 0.55, "y": 0.1, "scale": 0.7},
-            {"alpha_pattern": "alpha_subin_cafe_bright", "x": 0.1, "y": 0.08, "scale": 0.7}
+            {"alpha_pattern": "alpha_B_jiwoo_cafe", "x": 0.10, "y": 0.0, "scale": 0.90},
+            {"alpha_pattern": "alpha_A_subin_cafe", "x": -0.02, "y": -0.02, "scale": 1.0}
         ],
         "post": None,
-        "note": "카페 수빈+지우"
+        "note": "카페 — 수빈(A 밝음) + 지우(B 방어적) 대비"
     },
     "S-16": {
+        # 각본: "지우 양 손 저울. 솔직함 vs 관계의 평화. 추상 배경."
         "bg_pattern": None,
         "bg_color": (240, 235, 225, 255),
         "layers": [
-            {"alpha_pattern": "alpha_jiwoo_scale", "x": 0.2, "y": 0.05, "scale": 0.9}
+            {"alpha_pattern": "alpha_B_jiwoo_scale", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": None,
-        "note": "지우 저울 메타포"
+        "note": "지우 저울 메타포 — 내면의 계산 (스타일B)"
     },
     "S-17": {
+        # 각본: "지우 클로즈업. 입은 웃지만 눈은 죽어있다."
         "bg_pattern": "loc_LOC_cafe_sunny",
         "layers": [
-            {"alpha_pattern": "alpha_jiwoo_forced_smile", "x": 0.15, "y": 0.0, "scale": 1.0}
+            {"alpha_pattern": "alpha_B_jiwoo_smile", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": None,
-        "note": "지우 강제 미소 클로즈업"
+        "note": "지우 강제 미소 — 눈과 입의 불일치 (스타일B)"
     },
     "S-18": {
+        # 각본: "지우 커피 마시며 창밖 봄. 밖에 비. 유리창 빗방울."
         "bg_pattern": "loc_LOC_cafe_rainy",
         "layers": [
-            {"alpha_pattern": "alpha_jiwoo_window_rain", "x": 0.3, "y": 0.1, "scale": 0.8}
+            {"alpha_pattern": "alpha_B_jiwoo_window", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": None,
-        "note": "지우 창밖 비"
+        "note": "지우 창밖 비 — 감정의 외적 투사 (스타일B)"
     },
     "S-19": {
+        # 각본: "같은 구도 여러 겹. 지우 표정이 겹칠수록 무뎌진다."
+        # 수빈(앞), 지우 4겹(뒤→앞으로 점점 투명)
         "bg_pattern": "loc_LOC_cafe_sunny",
         "layers": [
-            {"alpha_pattern": "alpha_subin_cafe_bright", "x": 0.05, "y": 0.08, "scale": 0.65},
-            {"alpha_pattern": "alpha_jiwoo_forced_smile", "x": 0.35, "y": 0.08, "scale": 0.6, "opacity": 0.9},
-            {"alpha_pattern": "alpha_jiwoo_forced_smile", "x": 0.45, "y": 0.08, "scale": 0.6, "opacity": 0.6},
-            {"alpha_pattern": "alpha_jiwoo_forced_smile", "x": 0.55, "y": 0.08, "scale": 0.6, "opacity": 0.35},
-            {"alpha_pattern": "alpha_jiwoo_forced_smile", "x": 0.65, "y": 0.08, "scale": 0.6, "opacity": 0.15}
+            {"alpha_pattern": "alpha_A_subin_cafe", "x": 0.0, "y": 0.05, "scale": 0.70},
+            {"alpha_pattern": "alpha_B_jiwoo_smile", "x": 0.15, "y": 0.0, "scale": 0.85, "opacity": 0.9},
+            {"alpha_pattern": "alpha_B_jiwoo_smile", "x": 0.25, "y": 0.0, "scale": 0.85, "opacity": 0.6},
+            {"alpha_pattern": "alpha_B_jiwoo_smile", "x": 0.35, "y": 0.0, "scale": 0.85, "opacity": 0.35},
+            {"alpha_pattern": "alpha_B_jiwoo_smile", "x": 0.45, "y": 0.0, "scale": 0.85, "opacity": 0.15}
         ],
         "post": None,
-        "note": "다중노출 반복 (지우 4겹 점점 흐려짐)"
+        "note": "다중노출 — 지우 4겹 점점 흐려짐 (학습된 무력감)"
     },
     "S-20": {
+        # 각본: "어두운 현관. 신발 안 벗고 문에 등 기대기. 블루-그레이."
         "bg_pattern": "loc_LOC_hallway_dim",
         "layers": [
-            {"alpha_pattern": "alpha_jiwoo_door_lean", "x": 0.3, "y": 0.0, "scale": 0.9}
+            {"alpha_pattern": "alpha_B_jiwoo_door", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
         "post": "dim_evening",
-        "note": "지우 현관문 기대기"
+        "note": "지우 현관문 — 가장 조용하고 슬픈 장면 (스타일B)"
     },
+
+    # ── 2막C: 수빈의 진실 ──
     "S-21": {
+        # 각본: "밤. 침대. 폰 파란 빛만. 화장 지운 맨얼굴. 눈이 천장."
+        # 배경이 이미 충분히 어두움 — 후처리 없이 BG 자체 분위기 활용
         "bg_pattern": "loc_LOC_bedroom_night",
         "layers": [
-            {"alpha_pattern": "alpha_subin_night_bed", "x": 0.15, "y": 0.2, "scale": 0.85}
+            {"alpha_pattern": "alpha_B_subin_night", "x": 0.0, "y": 0.0, "scale": 1.0}
         ],
-        "post": "night_phone",
-        "note": "수빈 밤 침대"
+        "post": None,
+        "note": "수빈 밤 침대 — 감정적 정점, 반전 (스타일B)"
     },
+
+    # ── 3막: 정리 ──
     "S-22": {
+        # 각본: "화면 분할. 왼쪽 어두운 가스라이팅, 오른쪽 밝은 강요된 동의."
         "bg_pattern": "loc_LOC_livingroom_afternoon",
         "layers": [
-            {"alpha_pattern": "alpha_minjun_cornered", "x": 0.6, "y": 0.1, "scale": 0.65},
-            {"alpha_pattern": "alpha_subin_entrance", "x": 0.15, "y": 0.05, "scale": 0.7}
+            {"alpha_pattern": "alpha_B_minjun_cornered", "x": 0.0, "y": 0.0, "scale": 1.0},
+            {"alpha_pattern": "alpha_B_subin_lean", "x": -0.1, "y": 0.0, "scale": 1.0}
         ],
         "post": "split_warm_cool",
-        "note": "가스라이팅 vs 강요된 동의 비교 (분할)"
+        "note": "가스라이팅 ≠ 이 상황 — 좌우 톤 분할 (스타일B)"
     },
     "S-23": {
+        # 각본: "수빈, 민준, 지우 나란히. 보이지 않는 실선 연결."
+        # 세 명 모두 Style B standing — 각각 1/3 위치에 배치
         "bg_pattern": None,
         "bg_color": (245, 240, 235, 255),
         "layers": [
-            {"alpha_pattern": "alpha_subin_standing_lineup", "x": 0.1, "y": 0.05, "scale": 0.75},
-            {"alpha_pattern": "alpha_minjun_standing_lineup", "x": 0.35, "y": 0.05, "scale": 0.75},
-            {"alpha_pattern": "alpha_jiwoo_standing_lineup", "x": 0.6, "y": 0.05, "scale": 0.75}
+            {"alpha_pattern": "alpha_B_subin_standing", "x": -0.22, "y": 0.0, "scale": 1.0},
+            {"alpha_pattern": "alpha_B_minjun_standing", "x": 0.0, "y": 0.0, "scale": 1.0},
+            {"alpha_pattern": "alpha_B_jiwoo_standing", "x": 0.22, "y": 0.0, "scale": 1.0}
         ],
         "post": None,
-        "note": "세 사람 나란히"
+        "note": "세 사람 나란히 — 각자의 진실 (스타일B)"
     },
+
+    # ── 에필로그 ──
     "S-24": {
         "bg_pattern": "loc_LOC_minimal_chairs",
         "layers": [],
         "post": None,
-        "note": "빈 의자 (인물 없음, 배경이 완성본)"
+        "note": "빈 의자 — 네 번째 의자는 시청자 것 (스타일A)"
     }
 }
 
