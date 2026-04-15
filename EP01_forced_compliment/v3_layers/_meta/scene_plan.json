@@ -1,0 +1,134 @@
+{
+  "episode": "EP01_forced_compliment",
+  "version": "v3_layers",
+  "created": "2026-04-14",
+  "description": "Layer-based generation plan: locations + characters on green → composite",
+
+  "locations": {
+    "bathroom": {
+      "id": "LOC_bathroom",
+      "description": "수빈 욕실 — 거울 앞, 따뜻한 아침 빛",
+      "scenes_used": ["S-01"],
+      "variants": ["morning_warm"]
+    },
+    "living_room": {
+      "id": "LOC_living_room",
+      "description": "민준네 거실 — 소파, 커튼, 커피테이블, 따뜻한 오후 햇살",
+      "scenes_used": ["S-03", "S-04", "S-06", "S-07", "S-08", "S-11"],
+      "variants": ["afternoon_warm", "cold_desaturated"]
+    },
+    "cafe": {
+      "id": "LOC_cafe",
+      "description": "카페 창가 — 나무 테이블, 오후 빛, 아늑한 인테리어",
+      "scenes_used": ["S-15", "S-17", "S-18", "S-19"],
+      "variants": ["afternoon_sunny", "rainy_window"]
+    },
+    "hallway_jiwoo": {
+      "id": "LOC_hallway_jiwoo",
+      "description": "지우 아파트 현관 — 좁은 복도, 약한 간접등 하나",
+      "scenes_used": ["S-20"],
+      "variants": ["dim_evening"]
+    },
+    "bedroom_subin": {
+      "id": "LOC_bedroom_subin",
+      "description": "수빈 침실 — 어두운 밤, 폰 빛만 있는 침대",
+      "scenes_used": ["S-21"],
+      "variants": ["night_phone_glow"]
+    },
+    "minimal_room": {
+      "id": "LOC_minimal_room",
+      "description": "미니멀 방 — 의자 4개, 따뜻한 스팟 조명",
+      "scenes_used": ["S-24"],
+      "variants": ["warm_spotlight"]
+    },
+    "abstract_solid": {
+      "id": "LOC_abstract",
+      "description": "추상/단색 배경 — 클로즈업/메타포 씬용",
+      "scenes_used": ["S-05", "S-10", "S-13", "S-14"],
+      "variants": ["warm_gradient", "cool_gradient", "split_warm_cool"]
+    }
+  },
+
+  "characters": {
+    "subin": {
+      "id": "CHAR_subin",
+      "fixed_features": "young Korean woman, early 20s, long straight black hair, sparkling eyes",
+      "outfit_ep01": "pastel pink cardigan over white top",
+      "poses_needed": [
+        {"pose_id": "mirror_selfcheck", "scene": "S-01", "desc": "거울 보며 이쪽저쪽 살피는 만족 미소"},
+        {"pose_id": "entrance_vpose", "scene": "S-04", "desc": "한손 허리 + V포즈, 기대에 찬 눈빛"},
+        {"pose_id": "lean_forward", "scene": "S-06", "desc": "앞으로 기울이며 고개 갸웃, 재촉하는 표정"},
+        {"pose_id": "baby_crouch", "scene": "S-07", "desc": "쪼그려앉아 양손으로 얼굴 감싸며 아기에게"},
+        {"pose_id": "cafe_bright", "scene": "S-15", "desc": "카페 앉아 쇼핑백 옆에, 밝은 표정"},
+        {"pose_id": "night_bed", "scene": "S-21", "desc": "침대 누워 맨얼굴, 취약한 표정, 천장 응시"},
+        {"pose_id": "standing_lineup", "scene": "S-23", "desc": "나란히 서서 약간 외로운 표정"}
+      ]
+    },
+    "minjun": {
+      "id": "CHAR_minjun",
+      "fixed_features": "young Korean man, early 20s, short black hair",
+      "outfit_ep01": "gray hoodie",
+      "poses_needed": [
+        {"pose_id": "sofa_lazy", "scene": "S-03", "desc": "소파에 비스듬히 누워 폰 보는 중, 완전 이완"},
+        {"pose_id": "reaction_closeup", "scene": "S-05", "desc": "클로즈업, 옆으로 눈만 돌리며 미묘한 표정"},
+        {"pose_id": "sofa_shrink", "scene": "S-06", "desc": "소파에서 뒤로 움츠리며 불편한 표정"},
+        {"pose_id": "observing", "scene": "S-08", "desc": "폰 내려놓고 멀리 바라보며 분석하는 시선"},
+        {"pose_id": "closeup_fatigue", "scene": "S-10", "desc": "클로즈업, 피로+짜증 섞인 눈빛"},
+        {"pose_id": "cornered", "scene": "S-11", "desc": "벽에 등 붙이고 코너에 몰린 듯한 포즈"},
+        {"pose_id": "vending_machine", "scene": "S-12", "desc": "자판기화된 민준 (메타포)"},
+        {"pose_id": "angel_devil", "scene": "S-13", "desc": "양쪽 어깨에 천사/악마, 지친 중립"},
+        {"pose_id": "boundary_shield", "scene": "S-14", "desc": "투명 방어막 뒤, 조용한 단단함"},
+        {"pose_id": "standing_lineup", "scene": "S-23", "desc": "나란히 서서 이해하는 단단한 표정"}
+      ]
+    },
+    "jiwoo": {
+      "id": "CHAR_jiwoo",
+      "fixed_features": "young Korean person, soft androgynous features, short messy hair, gentle tired expression",
+      "outfit_ep01": "beige oversized sweater and pants",
+      "poses_needed": [
+        {"pose_id": "cafe_defensive", "scene": "S-15", "desc": "양손으로 커피잔 감싸고 방어적 자세"},
+        {"pose_id": "scale_hands", "scene": "S-16", "desc": "보이지않는 저울, 양손 들고 내려다봄"},
+        {"pose_id": "forced_smile", "scene": "S-17", "desc": "입은 웃는데 눈은 공허, 극적 불일치"},
+        {"pose_id": "window_rain", "scene": "S-18", "desc": "커피 마시며 창밖 비 바라보는 옆모습"},
+        {"pose_id": "repetition_fade", "scene": "S-19", "desc": "점점 채도 빠지는 4겹 반복 (다중노출)"},
+        {"pose_id": "door_lean", "scene": "S-20", "desc": "현관문에 등 기대 천장 응시, 완전 탈진"},
+        {"pose_id": "standing_lineup", "scene": "S-23", "desc": "나란히 서서 지쳤지만 포기하지 않은 표정"}
+      ]
+    },
+    "kongi": {
+      "id": "CHAR_kongi",
+      "fixed_features": "baby, big round eyes, chubby cheeks",
+      "outfit_ep01": "cute pastel onesie",
+      "poses_needed": [
+        {"pose_id": "sitting_blank", "scene": "S-07", "desc": "바닥에 앉아 멍하니 위를 바라보며 침 흘리는"}
+      ]
+    }
+  },
+
+  "scene_composite_plan": {
+    "S-01": {"bg": "bathroom/morning_warm", "chars": ["subin/mirror_selfcheck"], "note": "거울 반사 효과 필요"},
+    "S-03": {"bg": "living_room/afternoon_warm", "chars": ["minjun/sofa_lazy"], "note": "커피잔 소품 별도"},
+    "S-04": {"bg": "living_room/afternoon_warm", "chars": ["subin/entrance_vpose", "minjun/sofa_lazy"], "note": "수빈 중앙 밝게, 민준 구석"},
+    "S-05": {"bg": "abstract_solid/warm_gradient", "chars": ["minjun/reaction_closeup"], "note": "폰 빛 효과 후처리"},
+    "S-06": {"bg": "living_room/afternoon_warm", "chars": ["subin/lean_forward", "minjun/sofa_shrink"], "note": "수빈 내려다보는 위치"},
+    "S-07": {"bg": "living_room/afternoon_warm", "chars": ["subin/baby_crouch", "kongi/sitting_blank"], "note": "수빈 그림자 콩이 위에"},
+    "S-08": {"bg": "living_room/afternoon_warm", "chars": ["minjun/observing"], "note": "멀리서 바라보는 구도"},
+    "S-09": {"bg": "living_room/cold_desaturated", "chars": ["minjun/observing", "subin/entrance_vpose"], "note": "수빈 흐릿, 민준만 선명"},
+    "S-10": {"bg": "abstract_solid/cool_gradient", "chars": ["minjun/closeup_fatigue"], "note": "배경 완전 사라짐"},
+    "S-11": {"bg": "living_room/afternoon_warm", "chars": ["subin/entrance_vpose", "minjun/cornered"], "note": "드라마틱 분할조명"},
+    "S-12": {"bg": "abstract_solid/warm_gradient", "chars": ["minjun/vending_machine"], "note": "자판기 메타포, 코믹"},
+    "S-13": {"bg": "abstract_solid/warm_gradient", "chars": ["minjun/angel_devil"], "note": "천사/악마 오버레이"},
+    "S-14": {"bg": "abstract_solid/warm_gradient", "chars": ["minjun/boundary_shield"], "note": "방어막 효과 후처리"},
+    "S-15": {"bg": "cafe/afternoon_sunny", "chars": ["subin/cafe_bright", "jiwoo/cafe_defensive"], "note": "창가 마주앉은 구도"},
+    "S-16": {"bg": "abstract_solid/warm_gradient", "chars": ["jiwoo/scale_hands"], "note": "저울 메타포 오버레이"},
+    "S-17": {"bg": "cafe/afternoon_sunny", "chars": ["jiwoo/forced_smile"], "note": "클로즈업, 눈/입 불일치"},
+    "S-18": {"bg": "cafe/rainy_window", "chars": ["jiwoo/window_rain"], "note": "빗방울 유리 반사 효과"},
+    "S-19": {"bg": "cafe/afternoon_sunny", "chars": ["jiwoo/repetition_fade", "subin/cafe_bright"], "note": "다중노출 4겹 합성"},
+    "S-20": {"bg": "hallway_jiwoo/dim_evening", "chars": ["jiwoo/door_lean"], "note": "블루-그레이 톤"},
+    "S-21": {"bg": "bedroom_subin/night_phone_glow", "chars": ["subin/night_bed"], "note": "폰 빛만, 카디건 소품"},
+    "S-22": {"bg": "abstract_solid/split_warm_cool", "chars": ["subin/entrance_vpose", "minjun/cornered"], "note": "좌우 분할 비교"},
+    "S-23": {"bg": "abstract_solid/warm_gradient", "chars": ["subin/standing_lineup", "minjun/standing_lineup", "jiwoo/standing_lineup"], "note": "세 사람 나란히 + 실선"},
+    "S-24": {"bg": "minimal_room/warm_spotlight", "chars": [], "note": "사람 없음, 의자4+소품 직접 생성"},
+    "S-25": {"bg": "special", "chars": [], "note": "SD캐릭터 + 로고, Pillow 생성"}
+  }
+}
