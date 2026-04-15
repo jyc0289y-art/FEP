@@ -49,7 +49,6 @@
   }
   .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
 
-  /* Header */
   .header {
     text-align: center;
     padding: 32px 0 24px;
@@ -69,7 +68,6 @@
     font-weight: 600;
   }
 
-  /* Stats grid */
   .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -86,7 +84,6 @@
   .stat-card .value { font-size: 28px; font-weight: 700; color: var(--accent); }
   .stat-card .label { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
 
-  /* Progress section */
   .section { margin-bottom: 24px; }
   .section-title {
     font-size: 18px;
@@ -104,9 +101,7 @@
     border-radius: 8px;
     padding: 20px;
   }
-  .progress-overall {
-    margin-bottom: 16px;
-  }
+  .progress-overall { margin-bottom: 16px; }
   .progress-bar-bg {
     width: 100%;
     height: 12px;
@@ -121,7 +116,6 @@
     transition: width 0.6s ease;
   }
   .progress-bar-fill.green { background: var(--green); }
-  .progress-bar-fill.yellow { background: var(--yellow); }
   .progress-label {
     display: flex;
     justify-content: space-between;
@@ -164,7 +158,6 @@
   .phase-status.in_progress { background: var(--yellow-dim); color: var(--yellow); }
   .phase-status.pending { color: var(--text-dim); }
 
-  /* Milestones */
   .milestones-grid {
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -182,7 +175,6 @@
   .milestone-date { margin-left: auto; font-size: 12px; color: var(--text-dim); font-family: monospace; }
   .milestone-item.pending .milestone-text { color: var(--text-dim); }
 
-  /* Worklog timeline */
   .worklog-nav {
     display: flex;
     gap: 8px;
@@ -211,7 +203,7 @@
     min-height: 200px;
   }
   .worklog-content h1 { font-size: 20px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .worklog-content h2 { font-size: 16px; color: var(--text-dim); margin: 16px 0 8px; }
+  .worklog-content h2 { font-size: 16px; color: var(--text-dim); margin: 16px 0 8px; cursor: pointer; }
   .worklog-content h3 { font-size: 14px; color: var(--accent); margin: 12px 0 6px; }
   .worklog-content ul { padding-left: 20px; margin-bottom: 8px; }
   .worklog-content li { font-size: 14px; margin-bottom: 4px; line-height: 1.5; }
@@ -223,27 +215,9 @@
     font-family: 'SF Mono', Monaco, monospace;
   }
 
-  .collapsible-header {
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .collapsible-header::before {
-    content: '\25B6';
-    font-size: 10px;
-    transition: transform 0.2s;
-    display: inline-block;
-  }
-  .collapsible-header.open::before { transform: rotate(90deg); }
-  .collapsible-body { display: none; }
-  .collapsible-body.open { display: block; }
-
-  /* Loading */
   .loading { text-align: center; padding: 40px; color: var(--text-dim); }
+  .error-msg { text-align: center; padding: 20px; color: var(--red); font-size: 13px; }
 
-  /* Footer */
   .footer {
     text-align: center;
     padding: 24px 0;
@@ -253,7 +227,6 @@
     margin-top: 24px;
   }
 
-  /* Two column layout */
   .two-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -265,25 +238,22 @@
 </style>
 </head>
 <body>
-
 <div class="container">
   <div class="header">
     <h1>FEP Dashboard</h1>
     <div class="subtitle">일상속 경험의 심리학 - 제작 진행 현황</div>
-    <div class="episode-badge" id="episode-badge">Loading...</div>
+    <div class="episode-badge" id="episode-badge"></div>
   </div>
 
-  <!-- Stats -->
   <div class="stats-grid" id="stats-grid"></div>
 
-  <!-- Phase Progress -->
   <div class="section">
-    <div class="section-title"><span class="icon">&#9881;</span> Phase 진행률</div>
+    <div class="section-title"><span class="icon">⚙️</span> Phase 진행률</div>
     <div class="progress-container">
       <div class="progress-overall">
         <div class="progress-label">
-          <span id="progress-text">Loading...</span>
-          <span id="progress-pct">0%</span>
+          <span id="progress-text"></span>
+          <span id="progress-pct"></span>
         </div>
         <div class="progress-bar-bg">
           <div class="progress-bar-fill green" id="progress-bar" style="width: 0%"></div>
@@ -293,24 +263,22 @@
     </div>
   </div>
 
-  <!-- Two column: Milestones + Assets -->
   <div class="two-col">
     <div class="section">
-      <div class="section-title"><span class="icon">&#9733;</span> Milestones</div>
+      <div class="section-title"><span class="icon">★</span> Milestones</div>
       <div class="milestones-grid" id="milestones"></div>
     </div>
     <div class="section">
-      <div class="section-title"><span class="icon">&#9881;</span> Asset Count</div>
+      <div class="section-title"><span class="icon">⚙️</span> Asset Count</div>
       <div class="milestones-grid" id="assets-panel"></div>
     </div>
   </div>
 
-  <!-- Worklog -->
   <div class="section">
-    <div class="section-title"><span class="icon">&#128221;</span> Work Log</div>
+    <div class="section-title"><span class="icon">📝</span> Work Log</div>
     <div class="worklog-nav" id="worklog-nav"></div>
     <div class="worklog-content" id="worklog-content">
-      <div class="loading">Select a date to view the work log.</div>
+      <div class="loading">날짜를 선택하세요.</div>
     </div>
   </div>
 
@@ -320,34 +288,78 @@
 </div>
 
 <script>
+// ─── 내장 데이터 (네트워크 불필요) ───────────────────────────────
+const EMBEDDED_DATA = {
+  "dates": ["2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16"],
+  "last_updated": "2026-04-16T03:00:00",
+  "project": {
+    "name": "FEP - 일상속 경험의 심리학",
+    "current_episode": "EP01",
+    "episode_title": "강요된 칭찬의 심리학"
+  },
+  "phases": {
+    "Phase 8a":   { "name": "시네마틱 각본 v2",        "status": "done" },
+    "Phase 8a-2": { "name": "연출 원칙 + TTS 전략",    "status": "done" },
+    "Phase 8b":   { "name": "각본 사용자 검수",         "status": "done" },
+    "Phase 8c":   { "name": "쇼츠 각본 + BGM 설계",    "status": "done" },
+    "Phase 8c-2": { "name": "Typecast 보이스 캐스팅",   "status": "done" },
+    "Phase 8d":   { "name": "v3 레이어 일러스트",       "status": "done" },
+    "Phase 8d-2": { "name": "LP 캐릭터 애니메이션",     "status": "done" },
+    "Phase 8e":   { "name": "Typecast TTS 녹음",        "status": "pending" },
+    "Phase 8e-2": { "name": "말풍선 + 텍스트 오버레이", "status": "in_progress" },
+    "Phase 8f":   { "name": "build_video v3 통합",      "status": "in_progress" },
+    "Phase 8g":   { "name": "BGM/SFX 소싱 + 믹싱",     "status": "pending" },
+    "Phase 8h":   { "name": "영상 조립 + QA",           "status": "pending" },
+    "Phase 8i":   { "name": "업로드 준비",              "status": "pending" }
+  },
+  "assets": {
+    "locations": 8,
+    "characters_style_a": 6,
+    "characters_style_b": 18,
+    "alphas": 34,
+    "composites_portrait": 11,
+    "composites_scene": 14,
+    "lp_animations": 34,
+    "bubbles": 5,
+    "angel_devil": 4,
+    "kongi_poses": 8
+  },
+  "milestones": [
+    { "text": "v1 파이프라인 완료",          "done": true,  "date": "2026-04-12" },
+    { "text": "시네마틱 각본 v2 확정",       "done": true,  "date": "2026-04-13" },
+    { "text": "보이스 캐스팅 후보 선별",     "done": true,  "date": "2026-04-13" },
+    { "text": "v3 레이어 시스템 설계",       "done": true,  "date": "2026-04-14" },
+    { "text": "로케이션 8장 생성",           "done": true,  "date": "2026-04-14" },
+    { "text": "듀얼 그림체 시스템 도입",     "done": true,  "date": "2026-04-14" },
+    { "text": "캐릭터 24종 + 알파 추출",     "done": true,  "date": "2026-04-14" },
+    { "text": "씬 합성 25장 완료",           "done": true,  "date": "2026-04-14" },
+    { "text": "v2 프리뷰 빌드 완성",         "done": true,  "date": "2026-04-14" },
+    { "text": "LP 애니메이션 34/36",         "done": true,  "date": "2026-04-15" },
+    { "text": "말풍선/천사/악마 에셋 완료",  "done": true,  "date": "2026-04-15" },
+    { "text": "콩이 포즈 8종 완료",          "done": true,  "date": "2026-04-15" },
+    { "text": "build_video_v3 LP+말풍선 통합","done": true, "date": "2026-04-15" },
+    { "text": "S-06 LP+말풍선 프리뷰 완성",  "done": true,  "date": "2026-04-15" },
+    { "text": "S-06 QA 5개 이슈 수정 완료",  "done": true,  "date": "2026-04-15" },
+    { "text": "Typecast TTS 녹음 완료",      "done": false, "date": null },
+    { "text": "BGM/SFX 믹싱 완료",           "done": false, "date": null },
+    { "text": "롱폼 영상 최종 완성",         "done": false, "date": null },
+    { "text": "쇼츠 5편 완성",               "done": false, "date": null },
+    { "text": "YouTube 업로드",              "done": false, "date": null }
+  ]
+};
+// ─────────────────────────────────────────────────────────────────
+
 const BASE = './worklog/';
-let indexData = null;
 let activeDate = null;
 
-async function loadIndex() {
-  try {
-    const res = await fetch(BASE + 'index.json?' + Date.now());
-    indexData = await res.json();
-    render();
-  } catch (e) {
-    document.getElementById('worklog-content').innerHTML =
-      '<div class="loading">Failed to load index.json. Make sure you are serving this via HTTP.</div>';
-  }
-}
-
-function render() {
-  const d = indexData;
-
-  // Episode badge
+function render(d) {
   document.getElementById('episode-badge').textContent =
-    `${d.project.current_episode} - ${d.project.episode_title}`;
+    `${d.project.current_episode} — ${d.project.episode_title}`;
 
-  // Last updated
   document.getElementById('last-updated').textContent =
     new Date(d.last_updated).toLocaleString('ko-KR');
 
   // Stats
-  const statsEl = document.getElementById('stats-grid');
   const stats = [
     { value: d.assets.locations, label: 'Locations' },
     { value: d.assets.characters_style_a, label: 'Chars (A)' },
@@ -356,62 +368,59 @@ function render() {
     { value: d.assets.lp_animations, label: 'LP Anim' },
     { value: (d.assets.bubbles||0) + (d.assets.angel_devil||0) + (d.assets.kongi_poses||0), label: 'FX Assets' },
   ];
-  statsEl.innerHTML = stats.map(s =>
-    `<div class="stat-card"><div class="value">${s.value}</div><div class="label">${s.label}</div></div>`
+  document.getElementById('stats-grid').innerHTML = stats.map(s =>
+    `<div class="stat-card"><div class="value">${s.value ?? 0}</div><div class="label">${s.label}</div></div>`
   ).join('');
 
-  // Phases
+  // Phase progress
   const phases = Object.entries(d.phases);
   const done = phases.filter(([,v]) => v.status === 'done').length;
   const total = phases.length;
   const pct = Math.round((done / total) * 100);
-
   document.getElementById('progress-text').textContent = `${done} / ${total} phases complete`;
   document.getElementById('progress-pct').textContent = `${pct}%`;
   document.getElementById('progress-bar').style.width = `${pct}%`;
-
-  const phaseListEl = document.getElementById('phase-list');
-  phaseListEl.innerHTML = phases.map(([id, p]) => {
-    const statusLabel = p.status === 'done' ? 'Done' : p.status === 'in_progress' ? 'In Progress' : 'Pending';
+  document.getElementById('phase-list').innerHTML = phases.map(([id, p]) => {
+    const label = p.status === 'done' ? 'Done' : p.status === 'in_progress' ? 'In Progress' : 'Pending';
     return `<li class="phase-item">
       <span class="phase-dot ${p.status}"></span>
       <span class="phase-id">${id}</span>
       <span>${p.name}</span>
-      <span class="phase-status ${p.status}">${statusLabel}</span>
+      <span class="phase-status ${p.status}">${label}</span>
     </li>`;
   }).join('');
 
   // Milestones
-  const msEl = document.getElementById('milestones');
-  msEl.innerHTML = d.milestones.map(m =>
+  document.getElementById('milestones').innerHTML = d.milestones.map(m =>
     `<div class="milestone-item ${m.done ? '' : 'pending'}">
-      <span class="milestone-check">${m.done ? '\u2705' : '\u2B1C'}</span>
-      <span class="milestone-text">${m.text}</span>
+      <span class="milestone-check">${m.done ? '✅' : '⬜'}</span>
+      <span class="milestone-text">${esc(m.text)}</span>
       ${m.date ? `<span class="milestone-date">${m.date}</span>` : ''}
     </div>`
   ).join('');
 
   // Assets panel
-  const assetsEl = document.getElementById('assets-panel');
-  const assetItems = [
-    { label: 'Background Locations', value: d.assets.locations, icon: '\uD83C\uDFDE\uFE0F' },
-    { label: 'Characters (Style A - SD)', value: d.assets.characters_style_a, icon: '\uD83D\uDE0A' },
-    { label: 'Characters (Style B - Cinematic)', value: d.assets.characters_style_b, icon: '\uD83C\uDFAC' },
-    { label: 'Composited Scenes', value: d.assets.composites, icon: '\uD83D\uDDBC\uFE0F' },
-    { label: 'LivePortrait Animations', value: d.assets.lp_animations, icon: '\uD83C\uDFAC' },
-    { label: 'Scenes (v1 legacy)', value: d.assets.scenes_v1, icon: '\uD83D\uDCC1' },
-  ];
-  assetsEl.innerHTML = assetItems.map(a =>
+  document.getElementById('assets-panel').innerHTML = [
+    ['🏞️', 'Background Locations',         d.assets.locations],
+    ['😊', 'Chars Style A (SD)',            d.assets.characters_style_a],
+    ['🎬', 'Chars Style B (Cinematic)',     d.assets.characters_style_b],
+    ['🖼️', 'Alpha Extractions',            d.assets.alphas],
+    ['📐', 'Composites (Portrait)',         d.assets.composites_portrait],
+    ['📐', 'Composites (Scene)',            d.assets.composites_scene],
+    ['🎭', 'LivePortrait Animations',       d.assets.lp_animations],
+    ['💬', 'Speech/Thought Bubbles',        d.assets.bubbles],
+    ['😇', 'Angel/Devil Assets',           d.assets.angel_devil],
+    ['🐾', 'Kongi Poses',                  d.assets.kongi_poses],
+  ].map(([icon, label, val]) =>
     `<div class="milestone-item">
-      <span class="milestone-check">${a.icon}</span>
-      <span class="milestone-text">${a.label}</span>
-      <span class="milestone-date" style="font-weight:600;color:var(--accent)">${a.value}</span>
+      <span class="milestone-check">${icon}</span>
+      <span class="milestone-text">${label}</span>
+      <span class="milestone-date" style="font-weight:600;color:var(--accent)">${val ?? 0}</span>
     </div>`
   ).join('');
 
-  // Worklog navigation
-  const navEl = document.getElementById('worklog-nav');
-  navEl.innerHTML = d.dates.slice().reverse().map(date =>
+  // Worklog nav
+  document.getElementById('worklog-nav').innerHTML = d.dates.slice().reverse().map(date =>
     `<button class="worklog-btn" data-date="${date}" onclick="loadWorklog('${date}')">${date}</button>`
   ).join('');
 
@@ -423,23 +432,17 @@ function render() {
 
 async function loadWorklog(date) {
   activeDate = date;
-
-  // Update nav buttons
   document.querySelectorAll('.worklog-btn').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.date === date);
   });
-
-  const contentEl = document.getElementById('worklog-content');
-  contentEl.innerHTML = '<div class="loading">Loading...</div>';
-
+  const el = document.getElementById('worklog-content');
+  el.innerHTML = '<div class="loading">불러오는 중...</div>';
   try {
     const res = await fetch(BASE + date + '.md?' + Date.now());
     if (!res.ok) throw new Error('Not found');
-    const md = await res.text();
-    contentEl.innerHTML = renderMarkdown(md);
-    attachCollapsibles();
-  } catch (e) {
-    contentEl.innerHTML = `<div class="loading">No worklog for ${date}</div>`;
+    el.innerHTML = renderMarkdown(await res.text());
+  } catch {
+    el.innerHTML = `<div class="error-msg">작업일지 없음: ${date}</div>`;
   }
 }
 
@@ -447,68 +450,44 @@ function renderMarkdown(md) {
   let html = '';
   const lines = md.split('\n');
   let inList = false;
-  let sectionCount = 0;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-
     if (line.startsWith('# ')) {
       if (inList) { html += '</ul>'; inList = false; }
       html += `<h1>${esc(line.slice(2))}</h1>`;
     } else if (line.startsWith('## ')) {
       if (inList) { html += '</ul>'; inList = false; }
-      const id = 'sec-' + (sectionCount++);
-      html += `<h2 class="collapsible-header open" data-target="${id}">${esc(line.slice(3))}</h2><div class="collapsible-body open" id="${id}">`;
-      // Find end of section (next ## or end)
-      let j = i + 1;
-      while (j < lines.length && !lines[j].startsWith('## ')) j++;
-      // Render section content
-      for (let k = i + 1; k < j; k++) {
-        const sl = lines[k];
-        if (sl.startsWith('### ')) {
-          if (inList) { html += '</ul>'; inList = false; }
-          html += `<h3>${esc(sl.slice(4))}</h3>`;
-        } else if (sl.startsWith('- ')) {
-          if (!inList) { html += '<ul>'; inList = true; }
-          html += `<li>${escInline(sl.slice(2))}</li>`;
-        } else if (sl.trim() === '') {
-          if (inList) { html += '</ul>'; inList = false; }
-        } else {
-          if (inList) { html += '</ul>'; inList = false; }
-          html += `<p style="font-size:14px;margin:4px 0">${escInline(sl)}</p>`;
-        }
-      }
+      html += `<h2>${esc(line.slice(3))}</h2>`;
+    } else if (line.startsWith('### ')) {
       if (inList) { html += '</ul>'; inList = false; }
-      html += '</div>';
-      i = j - 1;
+      html += `<h3>${esc(line.slice(4))}</h3>`;
+    } else if (line.startsWith('- ')) {
+      if (!inList) { html += '<ul>'; inList = true; }
+      html += `<li>${inline(line.slice(2))}</li>`;
+    } else if (line.trim() === '') {
+      if (inList) { html += '</ul>'; inList = false; }
+    } else {
+      if (inList) { html += '</ul>'; inList = false; }
+      html += `<p style="font-size:14px;margin:4px 0">${inline(line)}</p>`;
     }
   }
   if (inList) html += '</ul>';
   return html;
 }
 
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function escInline(s) {
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function inline(s) {
   s = esc(s);
   s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-  s = s.replace(/->/, '\u2192');
   return s;
 }
 
-function attachCollapsibles() {
-  document.querySelectorAll('.collapsible-header').forEach(h => {
-    h.addEventListener('click', () => {
-      const target = document.getElementById(h.dataset.target);
-      if (target) {
-        h.classList.toggle('open');
-        target.classList.toggle('open');
-      }
-    });
-  });
-}
-
-loadIndex();
+// 즉시 렌더 (네트워크 없이)
+render(EMBEDDED_DATA);
 </script>
 </body>
 </html>
