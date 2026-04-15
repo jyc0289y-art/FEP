@@ -6,162 +6,129 @@
 <title>FEP Dashboard - 일상속 경험의 심리학</title>
 <style>
   :root {
-    --bg: #0d1117;
-    --bg-card: #161b22;
-    --bg-hover: #1c2128;
-    --border: #30363d;
-    --text: #e6edf3;
-    --text-dim: #8b949e;
-    --accent: #58a6ff;
-    --accent-dim: #1f3a5f;
-    --green: #3fb950;
-    --green-dim: #1a3a2a;
-    --yellow: #d29922;
-    --yellow-dim: #3d2e00;
-    --red: #f85149;
-    --purple: #bc8cff;
+    --bg: #0d1117; --bg-card: #161b22; --bg-hover: #1c2128; --border: #30363d;
+    --text: #e6edf3; --text-dim: #8b949e; --accent: #58a6ff; --accent-dim: #1f3a5f;
+    --green: #3fb950; --green-dim: #1a3a2a; --yellow: #d29922; --yellow-dim: #3d2e00;
+    --red: #f85149; --purple: #bc8cff;
   }
   @media (prefers-color-scheme: light) {
     :root {
-      --bg: #f6f8fa;
-      --bg-card: #ffffff;
-      --bg-hover: #f3f4f6;
-      --border: #d0d7de;
-      --text: #1f2328;
-      --text-dim: #656d76;
-      --accent: #0969da;
-      --accent-dim: #ddf4ff;
-      --green: #1a7f37;
-      --green-dim: #dafbe1;
-      --yellow: #9a6700;
-      --yellow-dim: #fff8c5;
-      --red: #cf222e;
-      --purple: #8250df;
+      --bg: #f6f8fa; --bg-card: #ffffff; --bg-hover: #f3f4f6; --border: #d0d7de;
+      --text: #1f2328; --text-dim: #656d76; --accent: #0969da; --accent-dim: #ddf4ff;
+      --green: #1a7f37; --green-dim: #dafbe1; --yellow: #9a6700; --yellow-dim: #fff8c5;
+      --red: #cf222e; --purple: #8250df;
     }
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
-  .container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
-
-  /* Tabs */
-  .tab-nav { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 24px; }
-  .tab-btn { padding: 10px 20px; background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 14px; font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
-  .tab-btn:hover { color: var(--text); }
-  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6; min-height:100vh; }
+  .container { max-width:1200px; margin:0 auto; padding:24px 16px; }
 
   /* Header */
-  .header { text-align: center; padding: 32px 0 24px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
-  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
-  .header .subtitle { color: var(--text-dim); font-size: 15px; }
-  .header .episode-badge { display: inline-block; margin-top: 12px; padding: 4px 14px; border-radius: 20px; background: var(--accent-dim); color: var(--accent); font-size: 13px; font-weight: 600; }
+  .header { text-align:center; padding:28px 0 20px; border-bottom:1px solid var(--border); margin-bottom:20px; }
+  .header h1 { font-size:26px; font-weight:700; margin-bottom:4px; }
+  .header .subtitle { color:var(--text-dim); font-size:14px; }
+  .episode-badge { display:inline-block; margin-top:10px; padding:3px 12px; border-radius:20px; background:var(--accent-dim); color:var(--accent); font-size:12px; font-weight:600; }
+
+  /* Tabs */
+  .tab-nav { display:flex; gap:0; border-bottom:2px solid var(--border); margin-bottom:20px; }
+  .tab-btn { padding:9px 18px; background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:14px; font-weight:500; border-bottom:2px solid transparent; margin-bottom:-2px; transition:all 0.2s; }
+  .tab-btn:hover { color:var(--text); }
+  .tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
 
   /* Stats */
-  .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
-  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
-  .stat-card .value { font-size: 28px; font-weight: 700; color: var(--accent); }
-  .stat-card .label { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
+  .stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:20px; }
+  .stat-card { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:14px; text-align:center; }
+  .stat-card .value { font-size:26px; font-weight:700; color:var(--accent); }
+  .stat-card .label { font-size:11px; color:var(--text-dim); margin-top:2px; }
 
   /* Section */
-  .section { margin-bottom: 24px; }
-  .section-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-  .section-title .icon { font-size: 20px; }
+  .section { margin-bottom:20px; }
+  .section-title { font-size:16px; font-weight:600; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
 
   /* Progress */
-  .progress-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; }
-  .progress-overall { margin-bottom: 16px; }
-  .progress-bar-bg { width: 100%; height: 12px; background: var(--border); border-radius: 6px; overflow: hidden; margin-top: 6px; }
-  .progress-bar-fill { height: 100%; border-radius: 6px; transition: width 0.6s ease; }
-  .progress-bar-fill.green { background: var(--green); }
-  .progress-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-dim); }
-  .phase-list { list-style: none; }
-  .phase-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
-  .phase-item:last-child { border-bottom: none; }
-  .phase-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  .phase-dot.done { background: var(--green); }
-  .phase-dot.in_progress { background: var(--yellow); animation: pulse 2s infinite; }
-  .phase-dot.pending { background: var(--border); }
-  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-  .phase-id { color: var(--text-dim); font-family: monospace; font-size: 12px; min-width: 90px; }
-  .phase-status { margin-left: auto; font-size: 12px; padding: 2px 8px; border-radius: 10px; font-weight: 500; }
-  .phase-status.done { background: var(--green-dim); color: var(--green); }
-  .phase-status.in_progress { background: var(--yellow-dim); color: var(--yellow); }
-  .phase-status.pending { color: var(--text-dim); }
+  .progress-container { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:18px; }
+  .progress-bar-bg { width:100%; height:10px; background:var(--border); border-radius:5px; overflow:hidden; margin-top:6px; }
+  .progress-bar-fill { height:100%; border-radius:5px; background:var(--green); transition:width 0.6s ease; }
+  .progress-label { display:flex; justify-content:space-between; font-size:13px; color:var(--text-dim); margin-bottom:12px; }
+  .phase-list { list-style:none; }
+  .phase-item { display:flex; align-items:center; gap:10px; padding:7px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .phase-item:last-child { border-bottom:none; }
+  .phase-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+  .phase-dot.done { background:var(--green); }
+  .phase-dot.in_progress { background:var(--yellow); animation:pulse 2s infinite; }
+  .phase-dot.pending { background:var(--border); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .phase-id { color:var(--text-dim); font-family:monospace; font-size:11px; min-width:88px; }
+  .phase-status { margin-left:auto; font-size:11px; padding:2px 7px; border-radius:10px; font-weight:500; }
+  .phase-status.done { background:var(--green-dim); color:var(--green); }
+  .phase-status.in_progress { background:var(--yellow-dim); color:var(--yellow); }
+  .phase-status.pending { color:var(--text-dim); }
 
-  /* Milestones/Assets */
-  .milestones-grid { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-  .milestone-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 14px; }
-  .milestone-check { font-size: 16px; flex-shrink: 0; }
-  .milestone-date { margin-left: auto; font-size: 12px; color: var(--text-dim); font-family: monospace; }
-  .milestone-item.pending .milestone-text { color: var(--text-dim); }
+  /* Milestones / Assets */
+  .card-list { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:14px; }
+  .card-item { display:flex; align-items:center; gap:8px; padding:5px 0; font-size:13px; border-bottom:1px solid var(--border); }
+  .card-item:last-child { border-bottom:none; }
+  .card-icon { font-size:15px; flex-shrink:0; }
+  .card-date { margin-left:auto; font-size:11px; color:var(--text-dim); font-family:monospace; }
+  .card-item.pending .card-text { color:var(--text-dim); }
+  .card-val { margin-left:auto; font-size:13px; font-weight:600; color:var(--accent); }
+
+  /* Two col */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:700px) { .two-col { grid-template-columns:1fr; } }
 
   /* Worklog */
-  .worklog-nav { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-  .worklog-btn { padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-card); color: var(--text); cursor: pointer; font-size: 13px; font-family: monospace; transition: all 0.2s; }
-  .worklog-btn:hover { background: var(--bg-hover); border-color: var(--accent); }
-  .worklog-btn.active { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+  .wl-nav { display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap; }
+  .wl-btn { padding:5px 12px; border:1px solid var(--border); border-radius:6px; background:var(--bg-card); color:var(--text); cursor:pointer; font-size:12px; font-family:monospace; transition:all 0.2s; }
+  .wl-btn:hover { background:var(--bg-hover); border-color:var(--accent); }
+  .wl-btn.active { background:var(--accent-dim); border-color:var(--accent); color:var(--accent); }
 
-  /* Doc viewer */
-  .doc-layout { display: grid; grid-template-columns: 280px 1fr; gap: 16px; }
-  @media (max-width: 800px) { .doc-layout { grid-template-columns: 1fr; } }
+  /* Doc browser */
+  .doc-layout { display:grid; grid-template-columns:260px 1fr; gap:16px; align-items:start; }
+  @media (max-width:800px) { .doc-layout { grid-template-columns:1fr; } }
+  .doc-sidebar { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; overflow:hidden; position:sticky; top:16px; }
+  .doc-group-header { padding:9px 12px; font-size:11px; font-weight:600; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; background:var(--bg-hover); display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--border); }
+  .doc-count { font-size:10px; background:var(--border); padding:1px 6px; border-radius:10px; }
+  .doc-item { padding:9px 12px; cursor:pointer; border-bottom:1px solid var(--border); transition:background 0.15s; }
+  .doc-item:last-child { border-bottom:none; }
+  .doc-item:hover { background:var(--bg-hover); }
+  .doc-item.active { background:var(--accent-dim); border-left:3px solid var(--accent); padding-left:9px; }
+  .doc-item-date { font-size:10px; color:var(--text-dim); font-family:monospace; margin-bottom:2px; }
+  .doc-item-title { font-size:12px; line-height:1.4; }
 
-  .doc-sidebar { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; align-self: start; }
-  .doc-group { border-bottom: 1px solid var(--border); }
-  .doc-group:last-child { border-bottom: none; }
-  .doc-group-header { padding: 10px 14px; font-size: 12px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; background: var(--bg-hover); display: flex; align-items: center; justify-content: space-between; }
-  .doc-group-header .doc-count { font-size: 11px; background: var(--border); padding: 1px 6px; border-radius: 10px; }
-  .doc-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background 0.15s; }
-  .doc-item:last-child { border-bottom: none; }
-  .doc-item:hover { background: var(--bg-hover); }
-  .doc-item.active { background: var(--accent-dim); border-left: 3px solid var(--accent); }
-  .doc-item-date { font-size: 11px; color: var(--text-dim); font-family: monospace; margin-bottom: 2px; }
-  .doc-item-title { font-size: 13px; line-height: 1.4; }
+  /* MD Content */
+  .content-box { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:20px; min-height:200px; }
+  .content-box h1 { font-size:20px; margin-bottom:14px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+  .content-box h2 { font-size:15px; color:var(--text-dim); margin:14px 0 7px; }
+  .content-box h3 { font-size:13px; color:var(--accent); margin:10px 0 5px; }
+  .content-box ul,ol { padding-left:20px; margin-bottom:8px; }
+  .content-box li { font-size:13px; margin-bottom:3px; line-height:1.5; }
+  .content-box p { font-size:13px; margin:4px 0; }
+  .content-box code { background:var(--bg); padding:1px 5px; border-radius:3px; font-size:12px; font-family:'SF Mono',Monaco,monospace; }
+  .content-box pre { background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:12px; margin:8px 0; overflow-x:auto; }
+  .content-box pre code { background:none; padding:0; font-size:12px; }
+  .content-box table { width:100%; border-collapse:collapse; font-size:12px; margin:8px 0; }
+  .content-box th,.content-box td { padding:6px 10px; border:1px solid var(--border); text-align:left; }
+  .content-box th { background:var(--bg-hover); font-weight:600; }
+  .content-box blockquote { border-left:3px solid var(--accent); padding-left:12px; color:var(--text-dim); font-size:12px; margin:8px 0; }
+  .content-box hr { border:none; border-top:1px solid var(--border); margin:12px 0; }
 
-  .doc-main { min-height: 400px; }
-  .doc-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin-bottom: 12px; }
-  .doc-content h1 { font-size: 20px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .doc-content h2 { font-size: 16px; color: var(--text-dim); margin: 16px 0 8px; }
-  .doc-content h3 { font-size: 14px; color: var(--accent); margin: 12px 0 6px; }
-  .doc-content ul { padding-left: 20px; margin-bottom: 8px; }
-  .doc-content li { font-size: 14px; margin-bottom: 4px; line-height: 1.5; }
-  .doc-content p { font-size: 14px; margin: 4px 0; }
-  .doc-content code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: 'SF Mono', Monaco, monospace; }
-  .doc-content table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
-  .doc-content th, .doc-content td { padding: 6px 10px; border: 1px solid var(--border); text-align: left; }
-  .doc-content th { background: var(--bg-hover); font-weight: 600; }
-  .doc-content blockquote { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--text-dim); font-size: 13px; margin: 8px 0; }
+  /* Related panel */
+  .related-box { background:var(--bg-card); border:1px solid var(--border); border-radius:8px; padding:12px; margin-top:12px; }
+  .related-title { font-size:11px; font-weight:600; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  .related-item { padding:7px 10px; border:1px solid var(--border); border-radius:5px; margin-bottom:5px; cursor:pointer; transition:all 0.15s; }
+  .related-item:hover { border-color:var(--accent); background:var(--accent-dim); }
+  .related-item:last-child { margin-bottom:0; }
+  .related-file { font-size:10px; font-family:monospace; color:var(--text-dim); margin-bottom:2px; word-break:break-all; }
+  .related-desc { font-size:12px; }
 
-  .related-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
-  .related-title { font-size: 12px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
-  .related-item { padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 6px; cursor: pointer; transition: all 0.15s; }
-  .related-item:hover { border-color: var(--accent); background: var(--accent-dim); }
-  .related-item-file { font-size: 11px; font-family: monospace; color: var(--text-dim); margin-bottom: 2px; }
-  .related-item-desc { font-size: 12px; color: var(--text); }
+  .loading { text-align:center; padding:40px; color:var(--text-dim); font-size:13px; }
+  .error-msg { text-align:center; padding:20px; color:var(--red); font-size:12px; }
+  .doc-placeholder { text-align:center; padding:60px 20px; color:var(--text-dim); font-size:13px; }
 
-  /* Worklog + Doc content shared */
-  .content-area { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 20px; min-height: 200px; }
-  .content-area h1 { font-size: 20px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .content-area h2 { font-size: 16px; color: var(--text-dim); margin: 16px 0 8px; }
-  .content-area h3 { font-size: 14px; color: var(--accent); margin: 12px 0 6px; }
-  .content-area ul { padding-left: 20px; margin-bottom: 8px; }
-  .content-area li { font-size: 14px; margin-bottom: 4px; line-height: 1.5; }
-  .content-area code { background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: 'SF Mono', Monaco, monospace; }
-  .content-area table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; overflow-x: auto; display: block; }
-  .content-area th, .content-area td { padding: 6px 10px; border: 1px solid var(--border); text-align: left; }
-  .content-area th { background: var(--bg-hover); font-weight: 600; }
-  .content-area blockquote { border-left: 3px solid var(--accent); padding-left: 12px; color: var(--text-dim); font-size: 13px; margin: 8px 0; }
-
-  .loading { text-align: center; padding: 40px; color: var(--text-dim); }
-  .error-msg { text-align: center; padding: 20px; color: var(--red); font-size: 13px; }
-  .doc-empty { text-align: center; padding: 60px 20px; color: var(--text-dim); font-size: 14px; }
-
-  /* Two-col */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
-
-  /* Footer */
-  .footer { text-align: center; padding: 24px 0; color: var(--text-dim); font-size: 12px; border-top: 1px solid var(--border); margin-top: 24px; }
+  .footer { text-align:center; padding:20px 0; color:var(--text-dim); font-size:11px; border-top:1px solid var(--border); margin-top:20px; }
 </style>
 </head>
 <body>
@@ -178,47 +145,30 @@
     <button class="tab-btn" onclick="switchTab('worklog')">📝 Work Log</button>
   </nav>
 
-  <!-- ═══ TAB: OVERVIEW ═══ -->
+  <!-- OVERVIEW -->
   <div class="tab-panel active" id="tab-overview">
     <div class="stats-grid" id="stats-grid"></div>
-
     <div class="section">
-      <div class="section-title"><span class="icon">⚙️</span> Phase 진행률</div>
+      <div class="section-title">⚙️ Phase 진행률</div>
       <div class="progress-container">
-        <div class="progress-overall">
-          <div class="progress-label">
-            <span id="progress-text"></span>
-            <span id="progress-pct"></span>
-          </div>
-          <div class="progress-bar-bg">
-            <div class="progress-bar-fill green" id="progress-bar" style="width:0%"></div>
-          </div>
-        </div>
-        <ul class="phase-list" id="phase-list"></ul>
+        <div class="progress-label"><span id="progress-text"></span><span id="progress-pct"></span></div>
+        <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar" style="width:0%"></div></div>
+        <ul class="phase-list" id="phase-list" style="margin-top:14px"></ul>
       </div>
     </div>
-
     <div class="two-col">
-      <div class="section">
-        <div class="section-title"><span class="icon">★</span> Milestones</div>
-        <div class="milestones-grid" id="milestones"></div>
-      </div>
-      <div class="section">
-        <div class="section-title"><span class="icon">📦</span> Asset Count</div>
-        <div class="milestones-grid" id="assets-panel"></div>
-      </div>
+      <div class="section"><div class="section-title">★ Milestones</div><div class="card-list" id="milestones"></div></div>
+      <div class="section"><div class="section-title">📦 Asset Count</div><div class="card-list" id="assets-panel"></div></div>
     </div>
   </div>
 
-  <!-- ═══ TAB: DOCUMENTS ═══ -->
+  <!-- DOCUMENTS -->
   <div class="tab-panel" id="tab-docs">
     <div class="doc-layout">
       <div class="doc-sidebar" id="doc-sidebar"></div>
-      <div class="doc-main">
-        <div class="doc-content" id="doc-content">
-          <div class="doc-empty">← 왼쪽에서 문서를 선택하세요</div>
-        </div>
-        <div class="related-panel" id="related-panel" style="display:none">
+      <div>
+        <div class="content-box" id="doc-content"><div class="doc-placeholder">← 왼쪽에서 문서를 선택하세요</div></div>
+        <div class="related-box" id="related-box" style="display:none">
           <div class="related-title">🔗 관련 문서</div>
           <div id="related-list"></div>
         </div>
@@ -226,494 +176,342 @@
     </div>
   </div>
 
-  <!-- ═══ TAB: WORKLOG ═══ -->
+  <!-- WORKLOG -->
   <div class="tab-panel" id="tab-worklog">
-    <div class="section">
-      <div class="worklog-nav" id="worklog-nav"></div>
-      <div class="content-area" id="worklog-content">
-        <div class="loading">날짜를 선택하세요.</div>
-      </div>
-    </div>
+    <div class="wl-nav" id="wl-nav"></div>
+    <div class="content-box" id="wl-content"><div class="loading">날짜를 선택하세요.</div></div>
   </div>
 
-  <div class="footer">
-    FEP (Familiar Experience Psychology) · P21 · Last updated: <span id="last-updated">-</span>
-  </div>
+  <div class="footer">FEP (Familiar Experience Psychology) · P21 · Last updated: <span id="last-updated">-</span></div>
 </div>
 
 <script>
-// ─── 내장 데이터 ───────────────────────────────────────────────
-const EMBEDDED = {
-  "dates": ["2026-04-12", "2026-04-13", "2026-04-14", "2026-04-15", "2026-04-16"],
-  "last_updated": "2026-04-16T03:00:00",
-  "project": { "current_episode": "EP01", "episode_title": "강요된 칭찬의 심리학" },
-  "phases": {
-    "Phase 8a":   { "name": "시네마틱 각본 v2",        "status": "done" },
-    "Phase 8a-2": { "name": "연출 원칙 + TTS 전략",    "status": "done" },
-    "Phase 8b":   { "name": "각본 사용자 검수",         "status": "done" },
-    "Phase 8c":   { "name": "쇼츠 각본 + BGM 설계",    "status": "done" },
-    "Phase 8c-2": { "name": "Typecast 보이스 캐스팅",   "status": "done" },
-    "Phase 8d":   { "name": "v3 레이어 일러스트",       "status": "done" },
-    "Phase 8d-2": { "name": "LP 캐릭터 애니메이션",     "status": "done" },
-    "Phase 8e":   { "name": "Typecast TTS 녹음",        "status": "pending" },
-    "Phase 8e-2": { "name": "말풍선 + 텍스트 오버레이", "status": "in_progress" },
-    "Phase 8f":   { "name": "build_video v3 통합",      "status": "in_progress" },
-    "Phase 8g":   { "name": "BGM/SFX 소싱 + 믹싱",     "status": "pending" },
-    "Phase 8h":   { "name": "영상 조립 + QA",           "status": "pending" },
-    "Phase 8i":   { "name": "업로드 준비",              "status": "pending" }
-  },
-  "assets": {
-    "locations": 8, "characters_style_a": 6, "characters_style_b": 18,
-    "alphas": 34, "composites_portrait": 11, "composites_scene": 14,
-    "lp_animations": 34, "bubbles": 5, "angel_devil": 4, "kongi_poses": 8
-  },
-  "milestones": [
-    { "text": "v1 파이프라인 완료",           "done": true,  "date": "2026-04-12" },
-    { "text": "시네마틱 각본 v2 확정",        "done": true,  "date": "2026-04-13" },
-    { "text": "보이스 캐스팅 후보 선별",      "done": true,  "date": "2026-04-13" },
-    { "text": "v3 레이어 시스템 설계",        "done": true,  "date": "2026-04-14" },
-    { "text": "로케이션 8장 + 캐릭터 24종",  "done": true,  "date": "2026-04-14" },
-    { "text": "씬 합성 25장 완료",           "done": true,  "date": "2026-04-14" },
-    { "text": "v2 프리뷰 빌드 완성",         "done": true,  "date": "2026-04-14" },
-    { "text": "LP 애니메이션 34/36",         "done": true,  "date": "2026-04-15" },
-    { "text": "말풍선/천사/악마/콩이 에셋",   "done": true,  "date": "2026-04-15" },
-    { "text": "build_video_v3 LP+말풍선 통합","done": true,  "date": "2026-04-15" },
-    { "text": "S-06 QA 완료",               "done": true,  "date": "2026-04-15" },
-    { "text": "Typecast TTS 녹음 완료",      "done": false, "date": null },
-    { "text": "BGM/SFX 믹싱 완료",           "done": false, "date": null },
-    { "text": "롱폼 영상 최종 완성",         "done": false, "date": null },
-    { "text": "쇼츠 5편 완성",               "done": false, "date": null },
-    { "text": "YouTube 업로드",              "done": false, "date": null }
-  ]
+// ─── 내장 데이터 ──────────────────────────────────────────────────
+const DATA = {
+  project: { episode: "EP01", title: "강요된 칭찬의 심리학" },
+  last_updated: "2026-04-16T03:00:00",
+  assets: { locations:8, style_a:6, style_b:18, alphas:34, comp_portrait:11, comp_scene:14, lp:34, bubbles:5, angel_devil:4, kongi:8 },
+  phases: [
+    ["Phase 8a",   "시네마틱 각본 v2",       "done"],
+    ["Phase 8a-2", "연출 원칙 + TTS 전략",   "done"],
+    ["Phase 8b",   "각본 사용자 검수",        "done"],
+    ["Phase 8c",   "쇼츠 각본 + BGM 설계",   "done"],
+    ["Phase 8c-2", "Typecast 보이스 캐스팅",  "done"],
+    ["Phase 8d",   "v3 레이어 일러스트",      "done"],
+    ["Phase 8d-2", "LP 캐릭터 애니메이션",    "done"],
+    ["Phase 8e",   "Typecast TTS 녹음",       "pending"],
+    ["Phase 8e-2", "말풍선 + 텍스트 오버레이","in_progress"],
+    ["Phase 8f",   "build_video v3 통합",     "in_progress"],
+    ["Phase 8g",   "BGM/SFX 소싱 + 믹싱",    "pending"],
+    ["Phase 8h",   "영상 조립 + QA",          "pending"],
+    ["Phase 8i",   "업로드 준비",             "pending"]
+  ],
+  milestones: [
+    [true,  "v1 파이프라인 완료",          "2026-04-12"],
+    [true,  "시네마틱 각본 v2 확정",       "2026-04-13"],
+    [true,  "보이스 캐스팅 후보 선별",     "2026-04-13"],
+    [true,  "v3 레이어 시스템 설계",       "2026-04-14"],
+    [true,  "로케이션 8장 + 캐릭터 24종", "2026-04-14"],
+    [true,  "씬 합성 25장 완료",          "2026-04-14"],
+    [true,  "v2 프리뷰 빌드 완성",        "2026-04-14"],
+    [true,  "LP 애니메이션 34/36",        "2026-04-15"],
+    [true,  "말풍선/천사/악마/콩이 에셋", "2026-04-15"],
+    [true,  "build_video_v3 통합",        "2026-04-15"],
+    [true,  "S-06 QA 완료",              "2026-04-15"],
+    [false, "Typecast TTS 녹음 완료",     null],
+    [false, "BGM/SFX 믹싱 완료",          null],
+    [false, "롱폼 영상 최종 완성",        null],
+    [false, "쇼츠 5편 완성",              null],
+    [false, "YouTube 업로드",             null]
+  ],
+  worklog_dates: ["2026-04-12","2026-04-13","2026-04-14","2026-04-15","2026-04-16"]
 };
 
-// ─── 문서 인덱스 (프로젝트별 × 시간순) ───────────────────────
-const DOC_GROUPS = [
-  {
-    id: "fep-common",
-    label: "FEP 공용",
-    docs: [
-      {
-        ts: "2026-04-12 13:42",
-        title: "EP01 제작계획서",
-        file: "20260412_134228_FEP_EP01_제작계획서.md",
-        path: "./20260412_134228_FEP_EP01_제작계획서.md",
-        related: [
-          { file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md", desc: "EP01 시네마틱 각본" },
-          { file: "EP01_forced_compliment/20260414_124102_EP01_작업지시서_강요된칭찬의심리학.md", desc: "EP01 작업지시서" }
-        ]
-      },
-      {
-        ts: "2026-04-14 12:40",
-        title: "유튜브 채널 운용전략",
-        file: "20260414_124053_FEP_유튜브채널_운용전략.md",
-        path: "./20260414_124053_FEP_유튜브채널_운용전략.md",
-        related: [
-          { file: "EP01_forced_compliment/20260414_124102_EP01_작업지시서_강요된칭찬의심리학.md", desc: "EP01 작업지시서" },
-          { file: "20260414_124058_EP02_작업지시서_산만함의심리학.md", desc: "EP02 작업지시서 (산만함)" },
-          { file: "20260414_124101_EP02_작업지시서_읽씹의심리학.md", desc: "EP02 작업지시서 (읽씹)" }
-        ]
-      },
-      {
-        ts: "2026-04-15 09:23",
-        title: "영상 제작 TRAP 관리 시스템",
-        file: "docs/20260415_092337_FEP_영상제작_TRAP_관리시스템.md",
-        path: "./docs/20260415_092337_FEP_영상제작_TRAP_관리시스템.md",
-        related: [
-          { file: "20260412_230139_EP01_교훈집.md", desc: "초기 교훈 기록" },
-          { file: "EP01_forced_compliment/20260413_210644_EP01_LP_멀티캐릭터_오버레이_설계.md", desc: "LP 설계" },
-          { file: "EP01_forced_compliment/20260413_210651_EP01_BGM_후보_매칭리스트.md", desc: "BGM 후보" }
-        ]
-      },
-      {
-        ts: "2026-04-15 09:32",
-        title: "P22 Flash MOE 전략 의견서",
-        file: "20260415_092844_P22_Flash_MOE_의견서.md",
-        path: "./20260415_092844_P22_Flash_MOE_의견서.md",
-        related: []
-      }
-    ]
-  },
-  {
-    id: "ep01",
-    label: "EP01 강요된 칭찬의 심리학",
-    docs: [
-      {
-        ts: "2026-04-12 14:01",
-        title: "타이밍 매니페스트",
-        file: "EP01_forced_compliment/20260412_140103_EP01_타이밍_매니페스트.md",
-        path: "./EP01_forced_compliment/20260412_140103_EP01_타이밍_매니페스트.md",
-        related: [
-          { file: "20260412_134228_FEP_EP01_제작계획서.md", desc: "EP01 전체 제작계획" },
-          { file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md", desc: "각본 - 씬 타이밍 기준" }
-        ]
-      },
-      {
-        ts: "2026-04-12 23:01",
-        title: "EP01 교훈집",
-        file: "20260412_230139_EP01_교훈집.md",
-        path: "./20260412_230139_EP01_교훈집.md",
-        related: [
-          { file: "docs/20260415_092337_FEP_영상제작_TRAP_관리시스템.md", desc: "후속 TRAP 관리 시스템" }
-        ]
-      },
-      {
-        ts: "2026-04-13 07:06",
-        title: "Typecast TTS 사용 가이드",
-        file: "EP01_forced_compliment/20260413_070625_EP01_Typecast_TTS_사용가이드.md",
-        path: "./EP01_forced_compliment/20260413_070625_EP01_Typecast_TTS_사용가이드.md",
-        related: [
-          { file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md", desc: "TTS 대상 각본" },
-          { file: "EP01_forced_compliment/20260413_095251_EP01_쇼츠v2_각본.md", desc: "쇼츠 TTS 대상" }
-        ]
-      },
-      {
-        ts: "2026-04-13 07:19",
-        title: "쇼츠 v2 1분심리학 컨셉 초안",
-        file: "EP01_forced_compliment/20260413_071939_EP01_쇼츠v2_1분심리학_컨셉초안.md",
-        path: "./EP01_forced_compliment/20260413_071939_EP01_쇼츠v2_1분심리학_컨셉초안.md",
-        related: [
-          { file: "EP01_forced_compliment/20260413_095251_EP01_쇼츠v2_각본.md", desc: "쇼츠 최종 각본" },
-          { file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md", desc: "롱폼 각본" }
-        ]
-      },
-      {
-        ts: "2026-04-13 07:56",
-        title: "EP01 시네마틱 각본 v2",
-        file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md",
-        path: "./EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md",
-        related: [
-          { file: "EP01_forced_compliment/20260413_095251_EP01_쇼츠v2_각본.md", desc: "쇼츠 각본" },
-          { file: "EP01_forced_compliment/20260413_095251_EP01_BGM_SFX_설계.md", desc: "BGM/SFX 설계" },
-          { file: "EP01_forced_compliment/20260414_124102_EP01_작업지시서_강요된칭찬의심리학.md", desc: "작업지시서" }
-        ]
-      },
-      {
-        ts: "2026-04-13 09:52",
-        title: "EP01 쇼츠 v2 각본",
-        file: "EP01_forced_compliment/20260413_095251_EP01_쇼츠v2_각본.md",
-        path: "./EP01_forced_compliment/20260413_095251_EP01_쇼츠v2_각본.md",
-        related: [
-          { file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md", desc: "롱폼 각본" },
-          { file: "EP01_forced_compliment/20260413_095251_EP01_BGM_SFX_설계.md", desc: "BGM/SFX 설계" }
-        ]
-      },
-      {
-        ts: "2026-04-13 09:52",
-        title: "EP01 BGM/SFX 설계",
-        file: "EP01_forced_compliment/20260413_095251_EP01_BGM_SFX_설계.md",
-        path: "./EP01_forced_compliment/20260413_095251_EP01_BGM_SFX_설계.md",
-        related: [
-          { file: "EP01_forced_compliment/20260413_210651_EP01_BGM_후보_매칭리스트.md", desc: "BGM 후보 매칭" },
-          { file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md", desc: "감정 곡선 기준 각본" }
-        ]
-      },
-      {
-        ts: "2026-04-13 21:06",
-        title: "LP 멀티캐릭터 오버레이 설계",
-        file: "EP01_forced_compliment/20260413_210644_EP01_LP_멀티캐릭터_오버레이_설계.md",
-        path: "./EP01_forced_compliment/20260413_210644_EP01_LP_멀티캐릭터_오버레이_설계.md",
-        related: [
-          { file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md", desc: "오버레이 대상 씬" },
-          { file: "docs/20260415_092337_FEP_영상제작_TRAP_관리시스템.md", desc: "LP 트랩 사례" }
-        ]
-      },
-      {
-        ts: "2026-04-13 21:06",
-        title: "BGM 후보 매칭 리스트",
-        file: "EP01_forced_compliment/20260413_210651_EP01_BGM_후보_매칭리스트.md",
-        path: "./EP01_forced_compliment/20260413_210651_EP01_BGM_후보_매칭리스트.md",
-        related: [
-          { file: "EP01_forced_compliment/20260413_095251_EP01_BGM_SFX_설계.md", desc: "BGM/SFX 설계서" },
-          { file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md", desc: "감정 곡선 기준" }
-        ]
-      },
-      {
-        ts: "2026-04-14 12:41",
-        title: "EP01 작업지시서 — 강요된 칭찬",
-        file: "EP01_forced_compliment/20260414_124102_EP01_작업지시서_강요된칭찬의심리학.md",
-        path: "./EP01_forced_compliment/20260414_124102_EP01_작업지시서_강요된칭찬의심리학.md",
-        related: [
-          { file: "20260412_134228_FEP_EP01_제작계획서.md", desc: "초기 기획서" },
-          { file: "EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md", desc: "EP01 각본" },
-          { file: "20260414_124053_FEP_유튜브채널_운용전략.md", desc: "채널 공통 전략" }
-        ]
-      }
-    ]
-  },
-  {
-    id: "ep02",
-    label: "EP02 후보",
-    docs: [
-      {
-        ts: "2026-04-14 12:40",
-        title: "EP02 작업지시서 — 산만함의 심리학",
-        file: "20260414_124058_EP02_작업지시서_산만함의심리학.md",
-        path: "./20260414_124058_EP02_작업지시서_산만함의심리학.md",
-        related: [
-          { file: "20260414_124053_FEP_유튜브채널_운용전략.md", desc: "채널 공통 전략" },
-          { file: "EP01_forced_compliment/20260414_124102_EP01_작업지시서_강요된칭찬의심리학.md", desc: "EP01 참조" },
-          { file: "docs/20260415_092337_FEP_영상제작_TRAP_관리시스템.md", desc: "제작 트랩 참조" }
-        ]
-      },
-      {
-        ts: "2026-04-14 12:41",
-        title: "EP02 작업지시서 — 읽씹의 심리학",
-        file: "20260414_124101_EP02_작업지시서_읽씹의심리학.md",
-        path: "./20260414_124101_EP02_작업지시서_읽씹의심리학.md",
-        related: [
-          { file: "20260414_124053_FEP_유튜브채널_운용전략.md", desc: "채널 공통 전략" },
-          { file: "EP01_forced_compliment/20260414_124102_EP01_작업지시서_강요된칭찬의심리학.md", desc: "EP01 참조" },
-          { file: "docs/20260415_092337_FEP_영상제작_TRAP_관리시스템.md", desc: "제작 트랩 참조" }
-        ]
-      }
-    ]
-  }
+// ─── 문서 인덱스 (index로 식별, 경로는 fetch용) ───────────────────
+const DOCS = [
+  // group, ts, title, path, related[]
+  { g:"FEP 공용", ts:"2026-04-12 13:42", title:"EP01 제작계획서",
+    path:"20260412_134228_FEP_EP01_제작계획서.md",
+    rel:[{i:4,d:"EP01 시네마틱 각본"},{i:9,d:"EP01 작업지시서"}] },
+
+  { g:"FEP 공용", ts:"2026-04-14 12:40", title:"유튜브 채널 운용전략",
+    path:"20260414_124053_FEP_유튜브채널_운용전략.md",
+    rel:[{i:9,d:"EP01 작업지시서"},{i:10,d:"EP02 작업지시서(산만함)"},{i:11,d:"EP02 작업지시서(읽씹)"}] },
+
+  { g:"FEP 공용", ts:"2026-04-15 09:23", title:"영상 제작 TRAP 관리 시스템",
+    path:"docs/20260415_092337_FEP_영상제작_TRAP_관리시스템.md",
+    rel:[{i:3,d:"초기 교훈 기록"},{i:7,d:"LP 설계"},{i:8,d:"BGM 후보"}] },
+
+  { g:"FEP 공용", ts:"2026-04-15 09:32", title:"P22 Flash MOE 전략 의견서",
+    path:"20260415_092844_P22_Flash_MOE_의견서.md",
+    rel:[] },
+
+  // EP01
+  { g:"EP01 강요된 칭찬", ts:"2026-04-12 13:42", title:"EP01 제작계획서",
+    path:"20260412_134228_FEP_EP01_제작계획서.md",
+    rel:[{i:5,d:"타이밍 매니페스트"},{i:9,d:"작업지시서"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-12 14:01", title:"타이밍 매니페스트",
+    path:"EP01_forced_compliment/20260412_140103_EP01_타이밍_매니페스트.md",
+    rel:[{i:4,d:"EP01 제작계획서"},{i:9,d:"각본 - 씬 타이밍 기준"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-12 23:01", title:"EP01 교훈집",
+    path:"20260412_230139_EP01_교훈집.md",
+    rel:[{i:2,d:"후속 TRAP 관리 시스템"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-13 07:06", title:"Typecast TTS 사용 가이드",
+    path:"EP01_forced_compliment/20260413_070625_EP01_Typecast_TTS_사용가이드.md",
+    rel:[{i:9,d:"TTS 대상 각본"},{i:13,d:"쇼츠 TTS 대상"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-13 21:06", title:"LP 멀티캐릭터 오버레이 설계",
+    path:"EP01_forced_compliment/20260413_210644_EP01_LP_멀티캐릭터_오버레이_설계.md",
+    rel:[{i:9,d:"오버레이 대상 씬"},{i:2,d:"LP 트랩 사례"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-13 07:56", title:"EP01 시네마틱 각본 v2",
+    path:"EP01_forced_compliment/20260413_075604_EP01_시네마틱_각본.md",
+    rel:[{i:13,d:"쇼츠 각본"},{i:14,d:"BGM/SFX 설계"},{i:15,d:"작업지시서"}] },
+
+  { g:"EP02 후보", ts:"2026-04-14 12:40", title:"EP02 작업지시서 — 산만함의 심리학",
+    path:"20260414_124058_EP02_작업지시서_산만함의심리학.md",
+    rel:[{i:1,d:"채널 공통 전략"},{i:15,d:"EP01 참조"},{i:2,d:"제작 트랩 참조"}] },
+
+  { g:"EP02 후보", ts:"2026-04-14 12:41", title:"EP02 작업지시서 — 읽씹의 심리학",
+    path:"20260414_124101_EP02_작업지시서_읽씹의심리학.md",
+    rel:[{i:1,d:"채널 공통 전략"},{i:15,d:"EP01 참조"},{i:2,d:"제작 트랩 참조"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-13 07:19", title:"쇼츠 v2 1분심리학 컨셉 초안",
+    path:"EP01_forced_compliment/20260413_071939_EP01_쇼츠v2_1분심리학_컨셉초안.md",
+    rel:[{i:13,d:"쇼츠 최종 각본"},{i:9,d:"롱폼 각본"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-13 09:52", title:"EP01 쇼츠 v2 각본",
+    path:"EP01_forced_compliment/20260413_095251_EP01_쇼츠v2_각본.md",
+    rel:[{i:9,d:"롱폼 각본"},{i:14,d:"BGM/SFX 설계"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-13 09:52", title:"EP01 BGM/SFX 설계",
+    path:"EP01_forced_compliment/20260413_095251_EP01_BGM_SFX_설계.md",
+    rel:[{i:8,d:"BGM 후보 매칭"},{i:9,d:"감정 곡선 기준 각본"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-13 21:06", title:"BGM 후보 매칭 리스트",
+    path:"EP01_forced_compliment/20260413_210651_EP01_BGM_후보_매칭리스트.md",
+    rel:[{i:14,d:"BGM/SFX 설계서"},{i:9,d:"감정 곡선 기준"}] },
+
+  { g:"EP01 강요된 칭찬", ts:"2026-04-14 12:41", title:"EP01 작업지시서 — 강요된 칭찬",
+    path:"EP01_forced_compliment/20260414_124102_EP01_작업지시서_강요된칭찬의심리학.md",
+    rel:[{i:4,d:"초기 기획서"},{i:9,d:"EP01 각본"},{i:1,d:"채널 공통 전략"}] }
 ];
 
-// ─────────────────────────────────────────────────────────────
+// ─── 렌더 초기화 ──────────────────────────────────────────────────
+(function init() {
+  document.getElementById('episode-badge').textContent = `${DATA.project.episode} — ${DATA.project.title}`;
+  document.getElementById('last-updated').textContent = new Date(DATA.last_updated).toLocaleString('ko-KR');
+  renderStats(); renderPhases(); renderMilestones(); renderAssets();
+  renderDocSidebar(); renderWorklogNav();
+})();
 
-let currentDoc = null;
-
-function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach((b,i) => {
-    const tabs = ['overview','docs','worklog'];
-    b.classList.toggle('active', tabs[i] === tab);
-  });
+function switchTab(t) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', ['overview','docs','worklog'][i]===t));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('tab-'+t).classList.add('active');
 }
 
-function render(d) {
-  document.getElementById('episode-badge').textContent =
-    `${d.project.current_episode} — ${d.project.episode_title}`;
-  document.getElementById('last-updated').textContent =
-    new Date(d.last_updated).toLocaleString('ko-KR');
-
-  // Stats
-  const stats = [
-    { value: d.assets.locations, label: 'Locations' },
-    { value: d.assets.characters_style_a + d.assets.characters_style_b, label: 'Characters' },
-    { value: (d.assets.composites_portrait||0)+(d.assets.composites_scene||0), label: 'Composites' },
-    { value: d.assets.lp_animations, label: 'LP Anim' },
-    { value: (d.assets.bubbles||0)+(d.assets.angel_devil||0)+(d.assets.kongi_poses||0), label: 'FX Assets' },
-    { value: d.assets.alphas, label: 'Alphas' },
-  ];
-  document.getElementById('stats-grid').innerHTML = stats.map(s =>
-    `<div class="stat-card"><div class="value">${s.value??0}</div><div class="label">${s.label}</div></div>`
-  ).join('');
-
-  // Phases
-  const phases = Object.entries(d.phases);
-  const done = phases.filter(([,v]) => v.status==='done').length;
-  const total = phases.length;
+// ─── Overview ─────────────────────────────────────────────────────
+function renderStats() {
+  const a = DATA.assets;
+  [
+    [a.locations,'Locations'],[a.style_a+a.style_b,'Characters'],
+    [a.comp_portrait+a.comp_scene,'Composites'],[a.lp,'LP Anim'],
+    [a.bubbles+a.angel_devil+a.kongi,'FX Assets'],[a.alphas,'Alphas']
+  ].forEach(([v,l]) => {
+    const el = document.createElement('div');
+    el.className = 'stat-card';
+    el.innerHTML = `<div class="value">${v}</div><div class="label">${l}</div>`;
+    document.getElementById('stats-grid').appendChild(el);
+  });
+}
+function renderPhases() {
+  const done = DATA.phases.filter(p=>p[2]==='done').length;
+  const total = DATA.phases.length;
   const pct = Math.round(done/total*100);
   document.getElementById('progress-text').textContent = `${done} / ${total} phases complete`;
   document.getElementById('progress-pct').textContent = `${pct}%`;
-  document.getElementById('progress-bar').style.width = pct + '%';
-  document.getElementById('phase-list').innerHTML = phases.map(([id, p]) => {
-    const label = p.status==='done'?'Done':p.status==='in_progress'?'In Progress':'Pending';
-    return `<li class="phase-item">
-      <span class="phase-dot ${p.status}"></span>
-      <span class="phase-id">${id}</span>
-      <span>${p.name}</span>
-      <span class="phase-status ${p.status}">${label}</span>
-    </li>`;
-  }).join('');
-
-  // Milestones
-  document.getElementById('milestones').innerHTML = d.milestones.map(m =>
-    `<div class="milestone-item ${m.done?'':'pending'}">
-      <span class="milestone-check">${m.done?'✅':'⬜'}</span>
-      <span class="milestone-text">${esc(m.text)}</span>
-      ${m.date?`<span class="milestone-date">${m.date}</span>`:''}
+  document.getElementById('progress-bar').style.width = pct+'%';
+  document.getElementById('phase-list').innerHTML = DATA.phases.map(([id,name,st]) =>
+    `<li class="phase-item"><span class="phase-dot ${st}"></span><span class="phase-id">${id}</span><span>${name}</span>
+    <span class="phase-status ${st}">${st==='done'?'Done':st==='in_progress'?'In Progress':'Pending'}</span></li>`
+  ).join('');
+}
+function renderMilestones() {
+  document.getElementById('milestones').innerHTML = DATA.milestones.map(([done,text,date]) =>
+    `<div class="card-item ${done?'':'pending'}">
+      <span class="card-icon">${done?'✅':'⬜'}</span>
+      <span class="card-text">${esc(text)}</span>
+      ${date?`<span class="card-date">${date}</span>`:''}
     </div>`
   ).join('');
-
-  // Assets
-  document.getElementById('assets-panel').innerHTML = [
-    ['🏞️','Background Locations', d.assets.locations],
-    ['😊','Chars Style A (SD)', d.assets.characters_style_a],
-    ['🎬','Chars Style B (Cinematic)', d.assets.characters_style_b],
-    ['✂️','Alpha Extractions', d.assets.alphas],
-    ['📐','Composites (Portrait)', d.assets.composites_portrait],
-    ['📐','Composites (Scene)', d.assets.composites_scene],
-    ['🎭','LivePortrait Animations', d.assets.lp_animations],
-    ['💬','Speech/Thought Bubbles', d.assets.bubbles],
-    ['😇','Angel/Devil Assets', d.assets.angel_devil],
-    ['🐾','Kongi Poses', d.assets.kongi_poses],
-  ].map(([icon,label,val]) =>
-    `<div class="milestone-item">
-      <span class="milestone-check">${icon}</span>
-      <span class="milestone-text">${label}</span>
-      <span class="milestone-date" style="font-weight:600;color:var(--accent)">${val??0}</span>
-    </div>`
-  ).join('');
-
-  // Worklog nav
-  document.getElementById('worklog-nav').innerHTML = d.dates.slice().reverse().map(date =>
-    `<button class="worklog-btn" data-date="${date}" onclick="loadWorklog('${date}')">${date}</button>`
-  ).join('');
-  if (d.dates.length > 0) loadWorklog(d.dates[d.dates.length-1]);
-
-  // Doc sidebar
-  renderDocSidebar();
+}
+function renderAssets() {
+  const a = DATA.assets;
+  [
+    ['🏞️','BG Locations',a.locations],['😊','Chars Style A',a.style_a],
+    ['🎬','Chars Style B',a.style_b],['✂️','Alphas',a.alphas],
+    ['📐','Composites (Portrait)',a.comp_portrait],['📐','Composites (Scene)',a.comp_scene],
+    ['🎭','LP Animations',a.lp],['💬','Bubbles',a.bubbles],
+    ['😇','Angel/Devil',a.angel_devil],['🐾','Kongi Poses',a.kongi]
+  ].forEach(([icon,label,val]) => {
+    const el = document.createElement('div');
+    el.className = 'card-item';
+    el.innerHTML = `<span class="card-icon">${icon}</span><span class="card-text">${label}</span><span class="card-val">${val}</span>`;
+    document.getElementById('assets-panel').appendChild(el);
+  });
 }
 
+// ─── Documents ────────────────────────────────────────────────────
 function renderDocSidebar() {
-  const totalDocs = DOC_GROUPS.reduce((s,g) => s+g.docs.length, 0);
+  const groups = {};
+  DOCS.forEach((doc, i) => {
+    if (!groups[doc.g]) groups[doc.g] = [];
+    groups[doc.g].push({ ...doc, _i: i });
+  });
+  // Deduplicate by title within group
+  const seen = new Set();
   let html = '';
-  DOC_GROUPS.forEach(group => {
-    html += `<div class="doc-group">
-      <div class="doc-group-header">
-        ${group.label}
-        <span class="doc-count">${group.docs.length}</span>
-      </div>`;
-    group.docs.forEach(doc => {
-      const active = currentDoc && currentDoc.file === doc.file ? 'active' : '';
-      html += `<div class="doc-item ${active}" onclick="openDoc(${JSON.stringify(JSON.stringify(doc))})">
+  Object.entries(groups).forEach(([gname, docs]) => {
+    const uniqueDocs = docs.filter(d => {
+      const key = d.g + '|' + d.title;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+    html += `<div class="doc-group-header">${esc(gname)}<span class="doc-count">${uniqueDocs.length}</span></div>`;
+    uniqueDocs.forEach(doc => {
+      html += `<div class="doc-item" data-idx="${doc._i}">
         <div class="doc-item-date">${doc.ts}</div>
         <div class="doc-item-title">${esc(doc.title)}</div>
       </div>`;
     });
-    html += `</div>`;
   });
-  document.getElementById('doc-sidebar').innerHTML = html;
+  const sidebar = document.getElementById('doc-sidebar');
+  sidebar.innerHTML = html;
+  sidebar.querySelectorAll('.doc-item').forEach(el => {
+    el.addEventListener('click', () => openDoc(parseInt(el.dataset.idx)));
+  });
 }
 
-function openDoc(docJson) {
-  const doc = JSON.parse(docJson);
-  currentDoc = doc;
+function openDoc(idx) {
+  const doc = DOCS[idx];
+  if (!doc) return;
 
-  // Update sidebar active state
-  document.querySelectorAll('.doc-item').forEach(el => el.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  // Active state
+  document.querySelectorAll('.doc-item').forEach(el => {
+    el.classList.toggle('active', parseInt(el.dataset.idx) === idx);
+  });
 
-  // Load content
+  // Fetch and render
   const contentEl = document.getElementById('doc-content');
-  contentEl.innerHTML = '<div class="loading">불러오는 중...</div>';
-
-  fetch(doc.path + '?' + Date.now())
-    .then(r => { if (!r.ok) throw new Error(); return r.text(); })
-    .then(md => { contentEl.innerHTML = renderMarkdown(md); })
-    .catch(() => {
-      contentEl.innerHTML = `<div class="error-msg">문서를 불러올 수 없습니다:<br><code>${esc(doc.file)}</code></div>`;
+  contentEl.innerHTML = '<div class="loading">불러오는 중…</div>';
+  fetch('./' + doc.path + '?t=' + Date.now())
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.text(); })
+    .then(md => { contentEl.innerHTML = renderMD(md); })
+    .catch(err => {
+      contentEl.innerHTML = `<div class="error-msg">
+        문서를 불러올 수 없습니다 (${err.message})<br>
+        <code style="font-size:11px">${esc(doc.path)}</code>
+      </div>`;
     });
 
-  // Related panel
-  const relPanel = document.getElementById('related-panel');
-  const relList = document.getElementById('related-list');
-  if (doc.related && doc.related.length > 0) {
-    relPanel.style.display = 'block';
-    relList.innerHTML = doc.related.map(r => {
-      const linkedDoc = findDoc(r.file);
-      return `<div class="related-item" onclick="${linkedDoc ? `openDocByFile(${JSON.stringify(JSON.stringify(r.file))})` : ''}">
-        <div class="related-item-file">${esc(r.file.split('/').pop())}</div>
-        <div class="related-item-desc">${esc(r.desc)}</div>
+  // Related
+  const relBox = document.getElementById('related-box');
+  if (doc.rel && doc.rel.length > 0) {
+    relBox.style.display = 'block';
+    document.getElementById('related-list').innerHTML = doc.rel.map(r => {
+      const target = DOCS[r.i];
+      return `<div class="related-item" data-idx="${r.i}">
+        <div class="related-file">${esc(target ? target.path.split('/').pop() : '')}</div>
+        <div class="related-desc">${esc(r.d)}</div>
       </div>`;
     }).join('');
+    document.querySelectorAll('.related-item').forEach(el => {
+      el.addEventListener('click', () => openDoc(parseInt(el.dataset.idx)));
+    });
   } else {
-    relPanel.style.display = 'none';
+    relBox.style.display = 'none';
   }
 }
 
-function findDoc(file) {
-  for (const group of DOC_GROUPS) {
-    const doc = group.docs.find(d => d.file === file);
-    if (doc) return doc;
-  }
-  return null;
-}
-
-function openDocByFile(fileJson) {
-  const file = JSON.parse(fileJson);
-  const doc = findDoc(file);
-  if (!doc) return;
-  // Find and click the sidebar item
-  document.querySelectorAll('.doc-item').forEach(el => {
-    if (el.querySelector('.doc-item-title')?.textContent === doc.title) {
-      el.click();
-    }
+// ─── Worklog ──────────────────────────────────────────────────────
+function renderWorklogNav() {
+  document.getElementById('wl-nav').innerHTML = DATA.worklog_dates.slice().reverse().map(d =>
+    `<button class="wl-btn" data-date="${d}">${d}</button>`
+  ).join('');
+  document.querySelectorAll('.wl-btn').forEach(btn => {
+    btn.addEventListener('click', () => loadWorklog(btn.dataset.date));
   });
-}
-
-async function loadWorklog(date) {
-  document.querySelectorAll('.worklog-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.date === date);
-  });
-  const el = document.getElementById('worklog-content');
-  el.innerHTML = '<div class="loading">불러오는 중...</div>';
-  try {
-    const res = await fetch('./worklog/' + date + '.md?' + Date.now());
-    if (!res.ok) throw new Error();
-    el.innerHTML = renderMarkdown(await res.text());
-  } catch {
-    el.innerHTML = `<div class="error-msg">작업일지 없음: ${date}</div>`;
+  if (DATA.worklog_dates.length > 0) {
+    loadWorklog(DATA.worklog_dates[DATA.worklog_dates.length - 1]);
   }
 }
 
-function renderMarkdown(md) {
-  // Strip HTML comments (metadata headers)
-  md = md.replace(/<!--[\s\S]*?-->/g, '');
-  let html = '';
-  const lines = md.split('\n');
-  let inList = false, inTable = false;
+function loadWorklog(date) {
+  document.querySelectorAll('.wl-btn').forEach(b => b.classList.toggle('active', b.dataset.date===date));
+  const el = document.getElementById('wl-content');
+  el.innerHTML = '<div class="loading">불러오는 중…</div>';
+  fetch(`./worklog/${date}.md?t=${Date.now()}`)
+    .then(r => { if (!r.ok) throw new Error(); return r.text(); })
+    .then(md => { el.innerHTML = renderMD(md); })
+    .catch(() => { el.innerHTML = `<div class="error-msg">작업일지 없음: ${date}</div>`; });
+}
+
+// ─── Markdown 렌더러 ──────────────────────────────────────────────
+function renderMD(md) {
+  // Strip HTML comments
+  md = md.replace(/<!--[\s\S]*?-->/g, '').trim();
+  let html = '', lines = md.split('\n'), inUl = false, inPre = false, preBuf = '';
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const trimmed = line.trim();
-
-    // Table detection
-    if (trimmed.startsWith('|')) {
-      if (!inList && !inTable) { html += '<table>'; inTable = true; }
-      if (trimmed.startsWith('|---') || trimmed.startsWith('| ---') || trimmed.match(/^\|[\s:-]+\|/)) {
-        // separator row
-      } else {
-        const cells = trimmed.slice(1, -1).split('|').map(c => `<td>${inline(c.trim())}</td>`).join('');
-        html += `<tr>${cells}</tr>`;
-      }
+    // Code blocks
+    if (line.startsWith('```')) {
+      if (!inPre) { inUl && (html += '</ul>', inUl=false); html += '<pre><code>'; inPre=true; }
+      else { html += esc(preBuf) + '</code></pre>'; inPre=false; preBuf=''; }
       continue;
-    } else if (inTable) { html += '</table>'; inTable = false; }
-
-    if (line.startsWith('# ')) {
-      if (inList) { html += '</ul>'; inList = false; }
-      html += `<h1>${esc(line.slice(2))}</h1>`;
-    } else if (line.startsWith('## ')) {
-      if (inList) { html += '</ul>'; inList = false; }
-      html += `<h2>${esc(line.slice(3))}</h2>`;
-    } else if (line.startsWith('### ')) {
-      if (inList) { html += '</ul>'; inList = false; }
-      html += `<h3>${esc(line.slice(4))}</h3>`;
-    } else if (line.startsWith('> ')) {
-      if (inList) { html += '</ul>'; inList = false; }
-      html += `<blockquote>${inline(line.slice(2))}</blockquote>`;
-    } else if (line.startsWith('- ') || line.startsWith('* ')) {
-      if (!inList) { html += '<ul>'; inList = true; }
-      html += `<li>${inline(line.slice(2))}</li>`;
-    } else if (trimmed === '') {
-      if (inList) { html += '</ul>'; inList = false; }
-    } else {
-      if (inList) { html += '</ul>'; inList = false; }
-      html += `<p>${inline(line)}</p>`;
     }
+    if (inPre) { preBuf += line + '\n'; continue; }
+
+    const t = line.trim();
+    // Table
+    if (t.startsWith('|')) {
+      inUl && (html += '</ul>', inUl=false);
+      if (t.match(/^\|[\s|:-]+\|$/)) continue; // separator
+      const cells = t.slice(1,-1).split('|');
+      html += '<tr>' + cells.map(c=>`<td>${inline(c.trim())}</td>`).join('') + '</tr>';
+      continue;
+    }
+    if (line.startsWith('# ')) { inUl&&(html+='</ul>',inUl=false); html+=`<h1>${inline(line.slice(2))}</h1>`; }
+    else if (line.startsWith('## ')) { inUl&&(html+='</ul>',inUl=false); html+=`<h2>${inline(line.slice(3))}</h2>`; }
+    else if (line.startsWith('### ')) { inUl&&(html+='</ul>',inUl=false); html+=`<h3>${inline(line.slice(4))}</h3>`; }
+    else if (line.startsWith('#### ')) { inUl&&(html+='</ul>',inUl=false); html+=`<h3 style="font-size:12px">${inline(line.slice(5))}</h3>`; }
+    else if (line.startsWith('> ')) { inUl&&(html+='</ul>',inUl=false); html+=`<blockquote>${inline(line.slice(2))}</blockquote>`; }
+    else if (t.startsWith('---') && t.replace(/-/g,'')==='' ) { inUl&&(html+='</ul>',inUl=false); html+='<hr>'; }
+    else if (line.match(/^[-*] /)) { if(!inUl){html+='<ul>';inUl=true;} html+=`<li>${inline(line.slice(2))}</li>`; }
+    else if (line.match(/^\d+\. /)) { inUl&&(html+='</ul>',inUl=false); html+=`<p>${inline(line)}</p>`; }
+    else if (t==='') { inUl&&(html+='</ul>',inUl=false); }
+    else { inUl&&(html+='</ul>',inUl=false); html+=`<p>${inline(line)}</p>`; }
   }
-  if (inList) html += '</ul>';
-  if (inTable) html += '</table>';
+  if (inUl) html += '</ul>';
+  // Wrap table rows
+  html = html.replace(/(<tr>.*?<\/tr>)+/gs, m => `<table>${m}</table>`);
   return html;
 }
 
-function esc(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 function inline(s) {
   s = esc(s);
   s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
   s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" style="color:var(--accent)">$1</a>');
   return s;
 }
-
-render(EMBEDDED);
 </script>
 </body>
 </html>
