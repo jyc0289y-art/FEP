@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EP01 v3 품질검사 보고서 — 강요된 칭찬의 심리학</title>
+<style>
+  :root {
+    --bg: #0d1117; --surface: #161b22; --border: #30363d;
+    --text: #e6edf3; --text-dim: #8b949e; --accent: #58a6ff;
+    --green: #3fb950; --yellow: #d29922; --red: #f85149;
+    --purple: #bc8cff;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+  h1 { font-size: 1.8rem; border-bottom: 2px solid var(--accent); padding-bottom: 0.8rem; margin-bottom: 1rem; }
+  h2 { font-size: 1.4rem; color: var(--accent); margin: 2rem 0 1rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 1.1rem; color: var(--purple); margin: 1.5rem 0 0.5rem; }
+  .meta { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 2rem; }
+  .meta span { margin-right: 1.5rem; }
+
+  /* Summary cards */
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; text-align: center; }
+  .summary-card .value { font-size: 2rem; font-weight: 700; }
+  .summary-card .label { color: var(--text-dim); font-size: 0.85rem; margin-top: 0.3rem; }
+  .pass { color: var(--green); }
+  .warn { color: var(--yellow); }
+  .fail { color: var(--red); }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+  th, td { padding: 0.6rem 0.8rem; border: 1px solid var(--border); text-align: left; }
+  th { background: var(--surface); color: var(--accent); font-weight: 600; }
+  td { background: var(--bg); }
+  tr:hover td { background: var(--surface); }
+
+  /* Comparison */
+  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+  .comparison .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .comparison .panel-header { padding: 0.5rem 1rem; font-weight: 600; font-size: 0.85rem; text-align: center; }
+  .comparison .panel-header.before { background: rgba(248,81,73,0.15); color: var(--red); }
+  .comparison .panel-header.after { background: rgba(63,185,80,0.15); color: var(--green); }
+  .comparison img, .comparison video { width: 100%; display: block; }
+
+  /* Badges */
+  .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .badge-pass { background: rgba(63,185,80,0.15); color: var(--green); }
+  .badge-warn { background: rgba(210,153,34,0.15); color: var(--yellow); }
+  .badge-fail { background: rgba(248,81,73,0.15); color: var(--red); }
+  .badge-p0 { background: rgba(248,81,73,0.2); color: var(--red); }
+  .badge-p1 { background: rgba(210,153,34,0.2); color: var(--yellow); }
+  .badge-p2 { background: rgba(88,166,255,0.2); color: var(--accent); }
+
+  /* Issue cards */
+  .issue-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin: 1rem 0; }
+  .issue-card h4 { margin-bottom: 0.5rem; }
+  .issue-card .desc { color: var(--text-dim); font-size: 0.9rem; margin-bottom: 0.8rem; }
+
+  .annotation { background: rgba(88,166,255,0.08); border-left: 3px solid var(--accent); padding: 0.8rem 1rem; margin: 0.8rem 0; font-size: 0.9rem; border-radius: 0 4px 4px 0; }
+  .annotation strong { color: var(--accent); }
+
+  /* Progress bar */
+  .progress-bar { background: var(--border); border-radius: 4px; height: 8px; margin: 0.3rem 0; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; }
+  .progress-fill.green { background: var(--green); }
+  .progress-fill.yellow { background: var(--yellow); }
+
+  .footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 0.8rem; text-align: center; }
+
+  @media (max-width: 768px) {
+    .comparison { grid-template-columns: 1fr; }
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>EP01 v3 품질검사 보고서</h1>
+<div class="meta">
+  <span>프로젝트: P21 FEP &mdash; 일상속 경험들의 심리학</span><br>
+  <span>에피소드: EP.01 강요된 칭찬의 심리학</span><br>
+  <span>빌드: <code>20260416_195444_EP01_v3_lp_bubble.mp4</code></span><br>
+  <span>검사일: 2026-04-16</span>
+  <span>세션: P21.9wc</span>
+</div>
+
+<!-- ===== Summary ===== -->
+<div class="summary-grid">
+  <div class="summary-card">
+    <div class="value pass">32/32</div>
+    <div class="label">클립 완성도</div>
+  </div>
+  <div class="summary-card">
+    <div class="value pass">11.1분</div>
+    <div class="label">총 재생 시간</div>
+  </div>
+  <div class="summary-card">
+    <div class="value pass">6/6</div>
+    <div class="label">개선 항목 해결</div>
+  </div>
+  <div class="summary-card">
+    <div class="value pass">0</div>
+    <div class="label">P0 이슈</div>
+  </div>
+  <div class="summary-card">
+    <div class="value warn">3</div>
+    <div class="label">Known Issues</div>
+  </div>
+</div>
+
+<!-- ===== Layer 1: Technical ===== -->
+<h2>Layer 1: 기술 스펙</h2>
+<table>
+  <tr><th>항목</th><th>기준</th><th>측정값</th><th>판정</th></tr>
+  <tr><td>해상도</td><td>1920&times;1080</td><td>1920&times;1080</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>프레임레이트</td><td>30fps</td><td>30/1</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>비디오 코덱</td><td>H.264</td><td>h264</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>오디오 코덱</td><td>AAC</td><td>aac / 24000Hz / mono</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>스트림 오류</td><td>0건</td><td>0건</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>파일 크기</td><td>25~40MB (10분 1080p)</td><td>31MB</td><td><span class="badge badge-pass">PASS</span></td></tr>
+</table>
+
+<!-- ===== Layer 2: Integrity ===== -->
+<h2>Layer 2: 무결성</h2>
+<table>
+  <tr><th>항목</th><th>기준</th><th>측정값</th><th>판정</th></tr>
+  <tr><td>메인 클립</td><td>16개</td><td>16개</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>비트 클립</td><td>16개</td><td>16개</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>클립 합산 vs 롱폼</td><td>&le;1.0s 차이</td><td>664.7s vs 665.1s (0.4s)</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>빌드 경고</td><td>0건</td><td>0건</td><td><span class="badge badge-pass">PASS</span></td></tr>
+</table>
+
+<h3>클립별 Duration</h3>
+<table>
+  <tr><th>#</th><th>클립 ID</th><th>Duration</th><th>비트</th></tr>
+  <tr><td>01</td><td>00_prologue</td><td>22.6s</td><td>0.8s</td></tr>
+  <tr><td>02</td><td>01_siblings</td><td>50.3s</td><td>0.8s</td></tr>
+  <tr><td>03</td><td>02_baby</td><td>33.0s</td><td>0.8s</td></tr>
+  <tr><td>04</td><td>03_validation</td><td>27.8s</td><td>0.8s</td></tr>
+  <tr><td>05</td><td>04_transition</td><td>16.2s</td><td>1.3s</td></tr>
+  <tr><td>06</td><td>05_minjun_pov</td><td>36.9s</td><td>0.8s</td></tr>
+  <tr><td>07</td><td>06_coerced</td><td>23.3s</td><td>0.8s</td></tr>
+  <tr><td>08</td><td>07_vending</td><td>28.0s</td><td>0.8s</td></tr>
+  <tr><td>09</td><td>08_dissonance_boundary</td><td>60.7s</td><td>1.3s</td></tr>
+  <tr><td>10</td><td>09_jiwoo_intro</td><td>49.4s</td><td>0.8s</td></tr>
+  <tr><td>11</td><td>10_rationalize</td><td>37.8s</td><td>0.8s</td></tr>
+  <tr><td>12</td><td>11_helplessness</td><td>65.1s</td><td>1.3s</td></tr>
+  <tr><td>13</td><td>12_subin_reversal</td><td>45.8s</td><td>1.8s</td></tr>
+  <tr><td>14</td><td>13_gaslighting</td><td>59.2s</td><td>0.8s</td></tr>
+  <tr><td>15</td><td>14_structure</td><td>47.9s</td><td>1.3s</td></tr>
+  <tr><td>16</td><td>15_epilogue</td><td>43.4s</td><td>2.3s</td></tr>
+</table>
+
+<!-- ===== Layer 3: Perceptual ===== -->
+<h2>Layer 3: 지각 품질 (시각 개선 검증)</h2>
+
+<!-- Issue 1: TRAP-034 -->
+<div class="issue-card">
+  <h4><span class="badge badge-p0">P0 Critical</span> TRAP-034: 멀티세그먼트 오버레이 렌더링 누락</h4>
+  <div class="desc">8/16 멀티세그먼트 클립에서 말풍선/텍스트 오버레이가 <strong>전혀 렌더링되지 않음</strong>. <code>build_video_v3.py</code> 멀티세그먼트 경로에 <code>build_bubble_overlay_video()</code> 호출 자체가 누락된 코드 버그.</div>
+</div>
+
+<h3>개선 1: S-04 말풍선 &mdash; "오빠. 나 예쁘지?" (TRAP-034 해결)</h3>
+<div class="annotation"><strong>설명:</strong> 멀티세그먼트 클립 <code>01_siblings</code>의 S-04 구간. 이전 빌드에서는 코드 버그로 말풍선이 완전히 누락. 수정 후 수빈의 대사 말풍선이 정상 렌더링됩니다.</div>
+<div class="comparison">
+  <div class="panel">
+    <div class="panel-header before">BEFORE (v3 이전 빌드 &mdash; 34초)</div>
+    <img src="qa_report_assets/bubble_s04_before.png" alt="S-04 before: no bubble">
+  </div>
+  <div class="panel">
+    <div class="panel-header after">AFTER (v3 최신 빌드 &mdash; 34초)</div>
+    <img src="qa_report_assets/bubble_s04_after.png" alt="S-04 after: speech bubble visible">
+  </div>
+</div>
+
+<h3>개선 2: S-10 Thought Bubble &mdash; "답이 정해져 있는데 왜 물어보는 건데." (TRAP-034 해결)</h3>
+<div class="annotation"><strong>설명:</strong> 멀티세그먼트 클립 <code>05_minjun_pov</code>의 S-10 구간. 민준의 내면 독백 생각풍선이 이전에는 렌더링되지 않았으나, 수정 후 정상 표시됩니다.</div>
+<div class="comparison">
+  <div class="panel">
+    <div class="panel-header before">BEFORE (v3 이전 빌드 &mdash; 170초)</div>
+    <img src="qa_report_assets/thought_s10_before.png" alt="S-10 before: no thought bubble">
+  </div>
+  <div class="panel">
+    <div class="panel-header after">AFTER (v3 최신 빌드 &mdash; 170초)</div>
+    <img src="qa_report_assets/thought_s10_after.png" alt="S-10 after: thought bubble visible">
+  </div>
+</div>
+
+<h3>개선 3: S-19 반복 대사 패턴 말풍선 추가 (신규)</h3>
+<div class="annotation"><strong>설명:</strong> 멀티세그먼트 클립 <code>11_helplessness</code>의 S-19. 수빈의 반복 질문 "나 예쁘지?" 말풍선이 새로 추가되어 학습된 무력감 패턴을 시각적으로 강화합니다.</div>
+<div class="comparison">
+  <div class="panel">
+    <div class="panel-header before">BEFORE (v3 이전 빌드 &mdash; 398초)</div>
+    <img src="qa_report_assets/repeat_s19_before.png" alt="S-19 before: no repeat bubbles">
+  </div>
+  <div class="panel">
+    <div class="panel-header after">AFTER (v3 최신 빌드 &mdash; 398초)</div>
+    <img src="qa_report_assets/repeat_s19_after.png" alt="S-19 after: repeat dialogue bubble">
+  </div>
+</div>
+
+<h3>개선 4: S-06 대사 말풍선 (멀티세그먼트 정상화)</h3>
+<div class="comparison">
+  <div class="panel">
+    <div class="panel-header before">BEFORE (v3 이전 빌드 &mdash; 58초)</div>
+    <img src="qa_report_assets/bubble_s06_before.png" alt="S-06 before">
+  </div>
+  <div class="panel">
+    <div class="panel-header after">AFTER (v3 최신 빌드 &mdash; 60초)</div>
+    <img src="qa_report_assets/bubble_s06_after.png" alt="S-06 after">
+  </div>
+</div>
+
+<!-- ===== Layer 3b: Scene-Dialogue Sync ===== -->
+<h2>Layer 3b: 대사-장면 정합성 (구간 영상)</h2>
+
+<div class="issue-card">
+  <h4><span class="badge badge-p1">P1</span> 컴플레인 #1: 타이틀 카드 노출 시간 부족</h4>
+  <div class="desc">"강요된 칭찬의 심리학" 제목이 너무 짧아서 시청자에게 정보가 전달되지 않음. S-02 ratio를 0.08&rarr;0.13으로 증가하여 ~2.9초 확보.</div>
+</div>
+<div class="comparison">
+  <div class="panel">
+    <div class="panel-header before">BEFORE &mdash; 타이틀 ~1.8초 (17~24초 구간)</div>
+    <video controls><source src="qa_report_assets/clip_title_before.mp4" type="video/mp4"></video>
+  </div>
+  <div class="panel">
+    <div class="panel-header after">AFTER &mdash; 타이틀 ~2.9초 (17~24초 구간)</div>
+    <video controls><source src="qa_report_assets/clip_title_after.mp4" type="video/mp4"></video>
+  </div>
+</div>
+
+<div class="issue-card">
+  <h4><span class="badge badge-p2">P2</span> 컴플레인 #2: 40초 씬 전환 타이밍</h4>
+  <div class="desc">"이 순간"에서 민준으로 넘어가지 않고 "민준이의 머릿속~" 내레이션에 맞춰 전환되도록 S-04 ratio 0.05&rarr;0.08, S-05 ratio 0.34&rarr;0.31로 조정.</div>
+</div>
+<div class="comparison">
+  <div class="panel">
+    <div class="panel-header before">BEFORE &mdash; S-03&rarr;S-04&rarr;S-05 전환 (28~48초)</div>
+    <video controls><source src="qa_report_assets/clip_transition_before.mp4" type="video/mp4"></video>
+  </div>
+  <div class="panel">
+    <div class="panel-header after">AFTER &mdash; 전환점 조정 (28~48초)</div>
+    <video controls><source src="qa_report_assets/clip_transition_after.mp4" type="video/mp4"></video>
+  </div>
+</div>
+
+<div class="issue-card">
+  <h4><span class="badge badge-p1">P1</span> 컴플레인 #3: "응/응이뭐야" 대사 간격</h4>
+  <div class="desc">민준의 "응"과 수빈의 "응이 뭐야"가 붙어서 한 사람이 "응응이뭐야"라고 말하는 것처럼 들림. TTS를 화자 전환 지점에서 분할하고 0.4초 무음을 삽입하여 화자 구분을 명확히 함.</div>
+</div>
+<div class="comparison">
+  <div class="panel">
+    <div class="panel-header before">BEFORE &mdash; "응" 직후 "응이뭐야" 연결 (48~63초)</div>
+    <video controls><source src="qa_report_assets/clip_dialogue_gap_before.mp4" type="video/mp4"></video>
+  </div>
+  <div class="panel">
+    <div class="panel-header after">AFTER &mdash; 0.4초 무음 삽입 (50~65초)</div>
+    <video controls><source src="qa_report_assets/clip_dialogue_gap_after.mp4" type="video/mp4"></video>
+  </div>
+</div>
+
+<div class="issue-card">
+  <h4><span class="badge badge-p1">P1</span> 컴플레인 #4: S-19 반복 대사 구간</h4>
+  <div class="desc">"나 예쁘지? 응 예뻐 / 괜찮지? 응 괜찮아" 반복 패턴에 말풍선이 없어 어떤 캐릭터가 말하는지 구분 불가. 수빈/지우 대사에 각각 말풍선 4개 추가.</div>
+</div>
+<div class="comparison">
+  <div class="panel">
+    <div class="panel-header before">BEFORE &mdash; 말풍선 없음 (388~403초)</div>
+    <video controls><source src="qa_report_assets/clip_repeat_before.mp4" type="video/mp4"></video>
+  </div>
+  <div class="panel">
+    <div class="panel-header after">AFTER &mdash; 반복 대사 말풍선 (388~403초)</div>
+    <video controls><source src="qa_report_assets/clip_repeat_after.mp4" type="video/mp4"></video>
+  </div>
+</div>
+
+<!-- ===== Layer 4: Narrative ===== -->
+<h2>Layer 4: 서사/의미</h2>
+<table>
+  <tr><th>항목</th><th>결과</th><th>판정</th></tr>
+  <tr><td>각본 26씬 &times; 16클립 매핑</td><td>전수 매핑 완료, 누락 없음</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>감정 곡선 5단계 배치</td><td>균열&rarr;자각&rarr;폭풍&rarr;항복&rarr;거울 순서 확인</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>킬링 라인 전달</td><td>"나 예쁘지?", "이건 질문이 아닙니다", "대답해주기 싫다" 등 전수 확인</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>프롤로그 훅</td><td>S-00 블랙 + S-01 수빈 &mdash; 5~15초 몰입 유도</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>에필로그 bookend</td><td>S-23 세 캐릭터 + S-24 빈 의자 &mdash; 프롤로그 연결</td><td><span class="badge badge-pass">PASS</span></td></tr>
+  <tr><td>심리학 용어 12건 커버리지</td><td>확인추구행동, 자율성침해, 강요된동의, 도구적관계, 인지부조화, 심리적경계, 관계유지동기, 자기합리화, 학습된무력감, 나르시시즘적공급, 가스라이팅(반박), 구조정리 &mdash; 12/12</td><td><span class="badge badge-pass">PASS</span></td></tr>
+</table>
+
+<!-- ===== Layer 5: Regression ===== -->
+<h2>Layer 5: 회귀 비교</h2>
+
+<h3>비교 대상</h3>
+<table>
+  <tr><th>버전</th><th>파일</th><th>길이</th><th>크기</th></tr>
+  <tr><td>v3 이전 (baseline)</td><td><code>20260416_184151_EP01_v3_lp_bubble.mp4</code></td><td>662.3s</td><td>30MB</td></tr>
+  <tr><td>v3 최신 (current)</td><td><code>20260416_195444_EP01_v3_lp_bubble.mp4</code></td><td>665.1s</td><td>31MB</td></tr>
+</table>
+
+<h3>개선점 (6건)</h3>
+<table>
+  <tr><th>#</th><th>항목</th><th>심각도</th><th>상세</th></tr>
+  <tr><td>1</td><td>TRAP-034: 멀티세그먼트 오버레이</td><td><span class="badge badge-p0">P0</span></td><td>8/16 클립의 모든 오버레이가 렌더링됨 (이전: 전부 누락)</td></tr>
+  <tr><td>2</td><td>타이틀 카드(S-02) 노출 증가</td><td><span class="badge badge-p2">P2</span></td><td>ratio 0.08&rarr;0.13 (~2.9초, 읽기 가능)</td></tr>
+  <tr><td>3</td><td>S-04/S-05 씬 전환 타이밍</td><td><span class="badge badge-p2">P2</span></td><td>"민준이의 머릿속" 내레이션에 맞춰 전환</td></tr>
+  <tr><td>4</td><td>"응/응이뭐야" 대사 간격</td><td><span class="badge badge-p1">P1</span></td><td>TTS 분할 + 0.4초 무음 삽입, 화자 구분 개선</td></tr>
+  <tr><td>5</td><td>S-19 반복 대사 말풍선</td><td><span class="badge badge-p1">P1</span></td><td>수빈/지우 말풍선 4개 추가 (학습된 무력감 시각화)</td></tr>
+  <tr><td>6</td><td>S-15 "2막B" 구조 라벨</td><td><span class="badge badge-p2">P2</span></td><td>Type E 라벨 추가</td></tr>
+</table>
+
+<h3>유지점</h3>
+<ul style="margin:0.5rem 0 0.5rem 1.5rem; color:var(--text-dim);">
+  <li>LP 포트레이트 애니메이션 전 씬 정상 동작</li>
+  <li>싱글세그먼트 클립 오버레이 품질 동일</li>
+  <li>크로마키 chromakey <code>0x30C010:0.12:0.02</code> 파라미터 유지</li>
+  <li>비트(정적) 클립 전수 정상</li>
+</ul>
+
+<h3>퇴보점</h3>
+<p style="color:var(--green); margin:0.5rem 0;">발견 없음</p>
+
+<h3>트레이드오프</h3>
+<table>
+  <tr><th>항목</th><th>변화</th><th>원인</th></tr>
+  <tr><td>총 재생 시간</td><td>662.3s &rarr; 665.1s (+2.8s)</td><td>TTS 분할 재생성으로 대사 간격 추가</td></tr>
+  <tr><td>빌드 시간</td><td>소폭 증가</td><td>멀티세그먼트 오버레이 렌더링 추가 (8클립)</td></tr>
+</table>
+
+<!-- ===== Known Issues ===== -->
+<h2>Known Issues (검수 범위 외)</h2>
+<table>
+  <tr><th>#</th><th>이슈</th><th>심각도</th><th>대응 계획</th></tr>
+  <tr><td>1</td><td>Pillow 텍스트 렌더링 미세 열화</td><td><span class="badge badge-warn">P3</span></td><td>Typecast TTS 단계에서 최종 조정</td></tr>
+  <tr><td>2</td><td>S-12 "칭찬 버튼" 텍스트 보완</td><td><span class="badge badge-warn">P3</span></td><td>텍스트 오버레이로 보완 예정</td></tr>
+  <tr><td>3</td><td>BGM/SFX 미적용</td><td><span class="badge badge-warn">&mdash;</span></td><td>Phase 8g에서 처리</td></tr>
+</table>
+
+<!-- ===== TRAP Registry ===== -->
+<h2>TRAP 등록 이력</h2>
+<table>
+  <tr><th>TRAP</th><th>제목</th><th>상태</th></tr>
+  <tr><td>TRAP-032</td><td>LP overlay <code>shortest=1</code> 조기 종료</td><td><span class="badge badge-pass">해결</span></td></tr>
+  <tr><td>TRAP-033</td><td>멀티세그 concat <code>-map</code> 누락</td><td><span class="badge badge-pass">해결</span></td></tr>
+  <tr><td>TRAP-034</td><td>멀티세그먼트 오버레이 렌더링 누락</td><td><span class="badge badge-pass">해결</span></td></tr>
+</table>
+
+<!-- ===== Conclusion ===== -->
+<h2>결론</h2>
+<div class="annotation">
+  <strong>사용자 5개 컴플레인 전수 대응 완료.</strong>
+  TRAP-034 크리티컬 버그(8/16 클립 오버레이 전량 누락) 수정으로 멀티세그먼트 클립의 말풍선/주석이 정상 렌더링됩니다.
+  TTS 분할 재생성으로 화자 전환 간격이 확보되었고, 타이틀 카드/씬 전환 비율이 조정되었습니다.
+  P0 이슈 0건, P1/P2 개선 6건, 퇴보 0건. Layer 1~5 전수 통과.
+</div>
+
+<div class="footer">
+  Generated by Claude Code &mdash; P21 FEP &mdash; 2026-04-16<br>
+  Plan: <code>docs/20260416_202727_EP01_v3_품질개선_계획.md</code>
+</div>
+
+</div>
+</body>
+</html>

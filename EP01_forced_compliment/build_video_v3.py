@@ -311,10 +311,12 @@ def get_duration(filepath):
     )
     return float(result.stdout.strip())
 
-def find_latest(directory, pattern):
+def find_latest(directory, pattern, exclude_alpha=True):
     files = sorted(directory.glob(f"*{pattern}*.png"), reverse=True)
-    # _alt 제외
-    files = [f for f in files if "_alt" not in f.stem and "_alpha" not in f.stem]
+    # _alt 제외, _alpha 제외는 씬 이미지 검색 시에만 (알파 디렉토리에서는 비활성)
+    files = [f for f in files if "_alt" not in f.stem]
+    if exclude_alpha:
+        files = [f for f in files if "_alpha" not in f.stem]
     return files[0] if files else None
 
 def find_lp_video(lp_key, motion="talking"):
@@ -501,8 +503,9 @@ def build_lp_portrait_clip(scene_id, duration, audio_path, output_path):
         y = TARGET_H - int(target_h * (1 - crop_off))
 
         out_label = f"[ov{idx}]" if idx < len(has_lp) - 1 else "[out]"
+        # TRAP-032: shortest=1 제거 — stream_loop -1 LP도 조기 EOF 발생, -t duration만 의존
         filter_parts.append(
-            f"{current}[lp{idx}]overlay={x}:{y}:shortest=1{out_label}"
+            f"{current}[lp{idx}]overlay={x}:{y}:eof_action=repeat{out_label}"
         )
         current = f"[ov{idx}]"
 
@@ -554,7 +557,7 @@ def prepare_bg(recipe):
 
 def paste_static_character(canvas, recipe_char):
     """정적 캐릭터를 캔버스에 합성 (v3_composite_portrait.py 로직 이식)"""
-    alpha_file = find_latest(ALPHA_DIR, recipe_char["alpha_pattern"])
+    alpha_file = find_latest(ALPHA_DIR, recipe_char["alpha_pattern"], exclude_alpha=False)
     if not alpha_file:
         print(f"  ⚠️ 알파 없음: {recipe_char['alpha_pattern']}")
         return
@@ -956,7 +959,9 @@ def build_bubble_overlay_video(scene_id, clip_id, duration, overlays, output_pat
                 else:
                     alpha = 1.0
 
-                item_overlay = render_bubble_overlay(ai["item"], scene_id=scene_id)
+                # 멀티세그먼트: 오버레이별 scene_id 지원 (_scene_id 필드 우선)
+                item_scene = ai["item"].get("_scene_id", scene_id)
+                item_overlay = render_bubble_overlay(ai["item"], scene_id=item_scene)
                 if alpha < 1.0:
                     arr = np.array(item_overlay)
                     arr[:, :, 3] = (arr[:, :, 3] * alpha).astype(np.uint8)
@@ -1000,34 +1005,35 @@ def build_bubble_overlay_video(scene_id, clip_id, duration, overlays, output_pat
 V2_SEQUENCE = [
     {"id": "00_prologue", "audio": "S00_S01_prologue.mp3", "beat_after": 0.8,
      "segments": [
-         {"scene": "S-00", "ratio": 0.22, "effect": "static"},
-         {"scene": "S-01", "ratio": 0.33, "effect": "zoom_in"},
-         {"scene": "S-23", "ratio": 0.22, "effect": "static"},
-         {"scene": "S-02", "ratio": 0.23, "effect": "static"},
+         # TRAP-034: 텍스트 분석 기반 ratio 재계산 (글자 수 비례)
+         {"scene": "S-00", "ratio": 0.08, "effect": "static"},       # "질문 하나 할게요" (짧은 훅)
+         {"scene": "S-01", "ratio": 0.45, "effect": "zoom_in"},      # 수빈 질문 + 해설
+         {"scene": "S-23", "ratio": 0.34, "effect": "static"},       # "세 사람의 심리"
+         {"scene": "S-02", "ratio": 0.13, "effect": "static"},       # 타이틀 카드 (Phase 1: 3초+ 확보)
      ]},
     {"id": "01_siblings", "audio": "S03_S06_siblings.mp3", "beat_after": 0.8,
      "segments": [
-         {"scene": "S-03", "ratio": 0.15, "effect": "static"},
-         {"scene": "S-04", "ratio": 0.07, "effect": "static"},
-         {"scene": "S-05", "ratio": 0.22, "effect": "zoom_in"},
-         {"scene": "S-06", "ratio": 0.56, "effect": "zoom_in"},
+         {"scene": "S-03", "ratio": 0.20, "effect": "static"},       # 민준 거실 도입
+         {"scene": "S-04", "ratio": 0.08, "effect": "static"},       # "오빠, 나 예쁘지?" (Phase 2: 전환점 확장)
+         {"scene": "S-05", "ratio": 0.31, "effect": "zoom_in"},      # 민준 내면 + "왜 대답 안해?"
+         {"scene": "S-06", "ratio": 0.41, "effect": "zoom_in"},      # 강요 대화 + 해설
      ]},
     {"id": "02_baby", "audio": "S07_S08_baby.mp3", "beat_after": 0.8,
      "segments": [
-         {"scene": "S-07", "ratio": 0.55, "effect": "static"},
-         {"scene": "S-08", "ratio": 0.45, "effect": "static"},
+         {"scene": "S-07", "ratio": 0.35, "effect": "static"},       # 콩이+수빈 질문
+         {"scene": "S-08", "ratio": 0.65, "effect": "static"},       # 민준 관찰 + 해설
      ]},
     {"id": "03_validation", "audio": "S08_validation.mp3", "beat_after": 0.8,
      "segments": [
-         {"scene": "S-07", "ratio": 0.45, "effect": "static"},
-         {"scene": "S-08", "ratio": 0.55, "effect": "zoom_in"},
+         {"scene": "S-07", "ratio": 0.08, "effect": "static"},       # 콩이 콜백 (짧게)
+         {"scene": "S-08", "ratio": 0.92, "effect": "zoom_in"},      # 확인 추구 행동 전체 해설
      ]},
     {"id": "04_transition", "audio": "S08_transition.mp3", "beat_after": 1.3,
      "segments": [{"scene": "S-05", "ratio": 1.0, "effect": "zoom_in"}]},
     {"id": "05_minjun_pov", "audio": "S09_S10_minjun_pov.mp3", "beat_after": 0.8,
      "segments": [
-         {"scene": "S-09", "ratio": 0.45, "effect": "static"},
-         {"scene": "S-10", "ratio": 0.55, "effect": "zoom_in"},
+         {"scene": "S-09", "ratio": 0.33, "effect": "static"},       # 되감기 + 민준 내면 대사
+         {"scene": "S-10", "ratio": 0.67, "effect": "zoom_in"},      # 자율성 침해 해설
      ]},
     {"id": "06_coerced", "audio": "S11_coerced.mp3", "beat_after": 0.8,
      "segments": [{"scene": "S-11", "ratio": 1.0, "effect": "zoom_in"}]},
@@ -1040,9 +1046,9 @@ V2_SEQUENCE = [
      ]},
     {"id": "09_jiwoo_intro", "audio": "S15_S17_jiwoo_intro.mp3", "beat_after": 0.8,
      "segments": [
-         {"scene": "S-15", "ratio": 0.35, "effect": "static"},
-         {"scene": "S-16", "ratio": 0.35, "effect": "zoom_in"},
-         {"scene": "S-17", "ratio": 0.30, "effect": "static"},
+         {"scene": "S-15", "ratio": 0.15, "effect": "static"},       # "지우야, 새 옷 샀거든?" (짧은 만남)
+         {"scene": "S-16", "ratio": 0.78, "effect": "zoom_in"},      # 지우 내면 계산 + 관계유지동기 해설
+         {"scene": "S-17", "ratio": 0.07, "effect": "static"},       # "어, 예쁘다!" (짧은 답변)
      ]},
     {"id": "10_rationalize", "audio": "S18_rationalize.mp3", "beat_after": 0.8,
      "segments": [{"scene": "S-18", "ratio": 1.0, "effect": "static"}]},
@@ -1196,20 +1202,84 @@ def build_clips():
                     for sf in seg_files:
                         f.write(f"file '{sf}'\n")
 
-                run_cmd([
-                    "ffmpeg", "-y",
-                    "-f", "concat", "-safe", "0", "-i", str(concat_list),
-                    "-i", str(audio_file),
-                    "-c:v", "libx264", "-c:a", "aac", "-b:a", "192k",
-                    "-t", str(duration), "-shortest", "-pix_fmt", "yuv420p",
-                    str(output)
-                ], f"멀티 세그먼트 합성 ({len(seg_files)}개)")
+                # TRAP-033: 멀티 세그먼트 concat 시 외부 오디오 명시적 map 필수
+                # 세그먼트들의 silent 트랙이 자동 선택되어 실제 오디오가 무시됨
+                # TRAP-034: 멀티세그먼트 오버레이 — 세그먼트별 ratio를 전체 클립 기준으로 변환
+                all_overlays = []
+                cumulative_ratio = 0.0
+                for si2, seg2 in enumerate(segments):
+                    seg2_scene = seg2["scene"]
+                    seg2_ratio = seg2["ratio"]
+                    seg_overlays = overlay_data.get((clip_id, seg2_scene), [])
+                    for ov in seg_overlays:
+                        remapped = dict(ov)
+                        orig_start = ov.get("start_ratio", 0.0)
+                        orig_dur = ov.get("duration_ratio", 1.0)
+                        remapped["start_ratio"] = cumulative_ratio + orig_start * seg2_ratio
+                        remapped["duration_ratio"] = orig_dur * seg2_ratio
+                        remapped["_scene_id"] = seg2_scene
+                        all_overlays.append(remapped)
+                    cumulative_ratio += seg2_ratio
+
+                has_overlays = bool(all_overlays)
+
+                if has_overlays:
+                    # 오버레이가 있으면: 먼저 비디오만 concat → 오버레이 합성 → 오디오 합성
+                    concat_video = temp_dir / "concat_video.mp4"
+                    run_cmd([
+                        "ffmpeg", "-y",
+                        "-f", "concat", "-safe", "0", "-i", str(concat_list),
+                        "-c:v", "libx264", "-an",
+                        "-pix_fmt", "yuv420p",
+                        str(concat_video)
+                    ], f"멀티 세그먼트 비디오 concat ({len(seg_files)}개)")
+
+                    overlay_vid = CLIPS_DIR / f"_overlay_{clip_id}.mov"
+                    if concat_video.exists() and build_bubble_overlay_video(
+                            segments[0]["scene"], clip_id, duration, all_overlays, overlay_vid):
+                        run_cmd([
+                            "ffmpeg", "-y",
+                            "-i", str(concat_video),
+                            "-i", str(overlay_vid),
+                            "-i", str(audio_file),
+                            "-filter_complex", "[0:v][1:v]overlay=0:0:shortest=1[v]",
+                            "-map", "[v]", "-map", "2:a",
+                            "-t", str(duration),
+                            "-c:v", "libx264", "-crf", "20",
+                            "-c:a", "aac", "-b:a", "192k",
+                            "-pix_fmt", "yuv420p",
+                            str(output)
+                        ], "멀티 세그먼트 오버레이 합성")
+                        overlay_vid.unlink(missing_ok=True)
+                    else:
+                        # 오버레이 실패 → concat_video + 오디오
+                        run_cmd([
+                            "ffmpeg", "-y",
+                            "-i", str(concat_video), "-i", str(audio_file),
+                            "-map", "0:v:0", "-map", "1:a:0",
+                            "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+                            "-t", str(duration),
+                            str(output)
+                        ], "멀티 세그먼트 오디오 합성 (오버레이 없음)")
+                    concat_video.unlink(missing_ok=True)
+                else:
+                    # 오버레이 없음 → 기존대로 concat + 오디오 직접 합성
+                    run_cmd([
+                        "ffmpeg", "-y",
+                        "-f", "concat", "-safe", "0", "-i", str(concat_list),
+                        "-i", str(audio_file),
+                        "-map", "0:v:0", "-map", "1:a:0",
+                        "-c:v", "libx264", "-c:a", "aac", "-b:a", "192k",
+                        "-t", str(duration), "-pix_fmt", "yuv420p",
+                        str(output)
+                    ], f"멀티 세그먼트 합성 ({len(seg_files)}개)")
 
                 for sf in seg_files:
                     sf.unlink(missing_ok=True)
                 concat_list.unlink(missing_ok=True)
                 try:
-                    temp_dir.rmdir()
+                    import shutil
+                    shutil.rmtree(temp_dir, ignore_errors=True)
                 except:
                     pass
 

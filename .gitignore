@@ -21,6 +21,7 @@ EP01_forced_compliment/v3_layers/characters_txt2img_backup/
 EP01_forced_compliment/v3_layers/alphas/*.png
 EP01_forced_compliment/v3_layers/scenes/*.png
 EP01_forced_compliment/v3_layers/lp/
+EP01_forced_compliment/clips_v3/
 EP01_forced_compliment/audio/
 EP01_forced_compliment/backup/
 characters/*.png

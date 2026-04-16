@@ -2,7 +2,7 @@
   "meta": {
     "episode": "EP01",
     "title": "강요된 칭찬의 심리학",
-    "version": "2.1",
+    "version": "2.2",
     "types": {
       "A": {"name": "대사 말풍선", "style": "speech_bubble", "desc": "캐릭터 대사 — 둥근 말풍선 + 꼬리"},
       "B": {"name": "내면 독백", "style": "thought_bubble", "desc": "내면 독백 — 구름 모양 + 점 꼬리"},
@@ -137,6 +137,7 @@
       "clip_id": "09_jiwoo_intro",
       "scene": "S-15",
       "items": [
+        {"type": "E", "text": "2막B — 지우의 선택", "position": "top_left", "start_ratio": 0.0, "duration_ratio": 0.20},
         {"type": "D", "text": "같은 질문.\n다른 사람.", "position": "center", "start_ratio": 0.0, "duration_ratio": 0.25, "style_override": {"font_size": 56, "fade_in": 0.3}},
         {"type": "A", "text": "지우야, 나 오늘\n새 옷 샀거든?\n예쁘지?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.50, "duration_ratio": 0.45}
       ]
@@ -170,6 +171,10 @@
       "clip_id": "11_helplessness",
       "scene": "S-19",
       "items": [
+        {"type": "A", "text": "나 예쁘지?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.02, "duration_ratio": 0.08},
+        {"type": "A", "text": "응, 예뻐.", "speaker": "지우", "position": "right_bubble", "start_ratio": 0.10, "duration_ratio": 0.06, "style_override": {"font_size": 36, "color": "#B0B0B0"}},
+        {"type": "A", "text": "오늘 괜찮지?", "speaker": "수빈", "position": "left_bubble", "start_ratio": 0.16, "duration_ratio": 0.08},
+        {"type": "A", "text": "응, 괜찮아.", "speaker": "지우", "position": "right_bubble", "start_ratio": 0.24, "duration_ratio": 0.06, "style_override": {"font_size": 36, "color": "#B0B0B0"}},
         {"type": "D", "text": "어차피 거절해도...\n또 물어볼 거잖아.", "position": "center", "start_ratio": 0.30, "duration_ratio": 0.30, "style_override": {"font_size": 48}},
         {"type": "C", "text": "학습된 무력감\nLearned Helplessness", "annotation": "반복된 거절 실패 → 저항 자체를 포기", "position": "lower_third", "start_ratio": 0.65, "duration_ratio": 0.30}
       ]
